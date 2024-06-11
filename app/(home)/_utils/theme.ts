@@ -3,6 +3,9 @@
 import { PaletteMode, ThemeOptions } from "@mui/material";
 import { amber, blue, green, red } from "@mui/material/colors";
 
+
+
+
 const getTheme = (mode: PaletteMode) => {
     const lightTheme: ThemeOptions = {
         palette: {
@@ -12,15 +15,9 @@ const getTheme = (mode: PaletteMode) => {
             },
 
         },
-        // components: {
-        //     MuiBadge: {
-        //         defaultProps: {
-        //             color: 'secondary',
+        components: {
 
-
-        //         }
-        //     }
-        // }
+        }
     };
     const darkTheme: ThemeOptions = {
         palette: {

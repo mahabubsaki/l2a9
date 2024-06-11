@@ -67,7 +67,7 @@ export default function Navbar(props: Props) {
                 </ListItem>
 
                 <ThemeSwitch />
-                <Link href={'/'}>
+                <Link href={'/sign-up'}>
                     <Button onClick={handleDrawerToggle} variant='contained'>
                         Join Now
                     </Button>
@@ -115,9 +115,11 @@ export default function Navbar(props: Props) {
                             </Badge>
                         </Button>
                         <ThemeSwitch />
-                        <Button variant='contained'>
-                            Join Now
-                        </Button>
+                        <Link href={'/sign-up'}>
+                            <Button onClick={handleDrawerToggle} variant='contained'>
+                                Join Now
+                            </Button>
+                        </Link>
 
                     </Box>
                 </Toolbar>
