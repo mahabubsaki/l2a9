@@ -14,6 +14,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Badge } from '@mui/material';
+import { drawerWidth, navItems } from '../_constants';
+import ThemeSwitch from './ThemeSwitch';
 
 interface Props {
     /**
@@ -23,8 +27,6 @@ interface Props {
     window?: () => Window;
 }
 
-const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
 
 export default function Navbar(props: Props) {
     const { window } = props;
@@ -48,6 +50,19 @@ export default function Navbar(props: Props) {
                         </ListItemButton>
                     </ListItem>
                 ))}
+                <ListItem>
+                    <ListItemButton sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <Badge badgeContent={4} color="secondary">
+                            <ShoppingCartIcon />
+                        </Badge>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem>
+                    <ListItemButton sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <ThemeSwitch />
+                    </ListItemButton>
+                </ListItem>
+
             </List>
         </Box>
     );
@@ -57,7 +72,7 @@ export default function Navbar(props: Props) {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar component="nav">
+            <AppBar component="nav" sx={{ bgcolor: 'red' }} >
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -81,6 +96,12 @@ export default function Navbar(props: Props) {
                                 {item}
                             </Button>
                         ))}
+                        <Button sx={{ color: '#fff' }}>
+                            <Badge badgeContent={4} color="secondary">
+                                <ShoppingCartIcon />
+                            </Badge>
+                        </Button>
+                        <ThemeSwitch />
                     </Box>
                 </Toolbar>
             </AppBar>
