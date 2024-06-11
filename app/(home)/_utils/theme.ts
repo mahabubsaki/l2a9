@@ -1,7 +1,7 @@
 'use client';
 
 import { PaletteMode, ThemeOptions } from "@mui/material";
-import { amber, green, red } from "@mui/material/colors";
+import { amber, blue, green, red } from "@mui/material/colors";
 
 const getTheme = (mode: PaletteMode) => {
     const lightTheme: ThemeOptions = {
@@ -10,21 +10,34 @@ const getTheme = (mode: PaletteMode) => {
             primary: {
                 main: green[500],
             },
-            secondary: {
-                main: '#19857b',
-            },
+
         },
+        // components: {
+        //     MuiBadge: {
+        //         defaultProps: {
+        //             color: 'secondary',
+
+
+        //         }
+        //     }
+        // }
     };
     const darkTheme: ThemeOptions = {
         palette: {
             mode,
             primary: {
-                main: amber[500],
-            },
-            secondary: {
-                main: red[400]
+                main: red[500],
             },
         },
+        // components: {
+        //     MuiBadge: {
+        //         defaultProps: {
+        //             color: 'secondary',
+
+
+        //         }
+        //     }
+        // }
     };
 
     const commonTheme = mode === 'light' ? lightTheme : darkTheme;

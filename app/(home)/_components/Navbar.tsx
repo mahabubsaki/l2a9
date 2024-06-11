@@ -18,6 +18,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Badge, Skeleton } from '@mui/material';
 import { drawerWidth, navItems } from '../_constants';
 import dynamic from 'next/dynamic';
+import useThemeContext from '../_hooks/useThemeContext';
+import Link from 'next/link';
 const ThemeSwitch = dynamic(() => import('../_components/ThemeSwitch'), { ssr: false });
 
 
@@ -40,29 +42,36 @@ export default function Navbar(props: Props) {
         setMobileOpen((prevState) => !prevState);
     };
 
+
     const drawer = (
-        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+        <Box sx={{ textAlign: 'center' }}>
             <Typography variant="h6" sx={{ my: 2 }}>
                 PristinePro
             </Typography>
             <Divider />
             <List>
                 {navItems.map((item) => (
-                    <ListItem key={item} disablePadding>
+                    <ListItem key={item} disablePadding onClick={handleDrawerToggle}>
                         <ListItemButton sx={{ textAlign: 'center' }}>
                             <ListItemText primary={item} />
                         </ListItemButton>
                     </ListItem>
                 ))}
-                <ListItem>
-                    <ListItemButton sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <Badge badgeContent={5} >
+                <ListItem disablePadding>
+                    <ListItemButton onClick={handleDrawerToggle} sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <Badge badgeContent={5} color='secondary'>
                             <ShoppingCartIcon />
                         </Badge>
                     </ListItemButton>
+
                 </ListItem>
 
-
+                <ThemeSwitch />
+                <Link href={'/'}>
+                    <Button onClick={handleDrawerToggle} variant='contained'>
+                        Join Now
+                    </Button>
+                </Link>
                 {/* <ThemeSwitch /> */}
 
 
@@ -101,11 +110,14 @@ export default function Navbar(props: Props) {
                             </Button>
                         ))}
                         <Button sx={{ color: '#fff' }}>
-                            <Badge badgeContent={4} color={'dark' === 'dark' ? 'primary' : 'secondary'}>
+                            <Badge badgeContent={4} color='secondary' >
                                 <ShoppingCartIcon />
                             </Badge>
                         </Button>
                         <ThemeSwitch />
+                        <Button variant='contained'>
+                            Join Now
+                        </Button>
 
                     </Box>
                 </Toolbar>
