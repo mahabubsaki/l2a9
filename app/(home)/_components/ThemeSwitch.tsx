@@ -3,6 +3,8 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 
 import Switch from '@mui/material/Switch';
+import useThemeContext from '../_hooks/useThemeContext';
+
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -52,10 +54,17 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const ThemeSwitch = () => {
+    const { changeColorMode, mode } = useThemeContext();
+
+
     return (
         <MaterialUISwitch onChange={(e) => {
-            console.log(e);
-        }} sx={{ m: 1 }} />
+            if (e.target.checked) {
+                changeColorMode('dark');
+            } else {
+                changeColorMode('light');
+            }
+        }} checked={mode === 'dark'} sx={{ m: 1 }} />
     );
 };
 

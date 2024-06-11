@@ -15,9 +15,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Badge } from '@mui/material';
+import { Badge, Skeleton } from '@mui/material';
 import { drawerWidth, navItems } from '../_constants';
-import ThemeSwitch from './ThemeSwitch';
+import dynamic from 'next/dynamic';
+const ThemeSwitch = dynamic(() => import('../_components/ThemeSwitch'), { ssr: false });
+
 
 interface Props {
     /**
@@ -31,6 +33,8 @@ interface Props {
 export default function Navbar(props: Props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+
+
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -52,16 +56,16 @@ export default function Navbar(props: Props) {
                 ))}
                 <ListItem>
                     <ListItemButton sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <Badge badgeContent={4} color="secondary">
+                        <Badge badgeContent={5} >
                             <ShoppingCartIcon />
                         </Badge>
                     </ListItemButton>
                 </ListItem>
-                <ListItem>
-                    <ListItemButton sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <ThemeSwitch />
-                    </ListItemButton>
-                </ListItem>
+
+
+                {/* <ThemeSwitch /> */}
+
+
 
             </List>
         </Box>
@@ -71,8 +75,8 @@ export default function Navbar(props: Props) {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <AppBar component="nav" sx={{ bgcolor: 'red' }} >
+
+            <AppBar component="nav"  >
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -97,11 +101,12 @@ export default function Navbar(props: Props) {
                             </Button>
                         ))}
                         <Button sx={{ color: '#fff' }}>
-                            <Badge badgeContent={4} color="secondary">
+                            <Badge badgeContent={4} color={'dark' === 'dark' ? 'primary' : 'secondary'}>
                                 <ShoppingCartIcon />
                             </Badge>
                         </Button>
                         <ThemeSwitch />
+
                     </Box>
                 </Toolbar>
             </AppBar>
