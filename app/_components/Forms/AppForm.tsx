@@ -1,4 +1,6 @@
+
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Box, SxProps } from '@mui/material';
 import React from 'react';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -7,10 +9,11 @@ type AppFormProps = {
     onSubmit: SubmitHandler<FieldValues>;
     initialValues: Record<string, any>;
     schema: any;
+    sx: SxProps;
 
 };
 
-const AppForm = ({ children, initialValues, onSubmit, schema }: AppFormProps) => {
+const AppForm = ({ children, initialValues, onSubmit, schema, sx }: AppFormProps) => {
     const methods = useForm({
         defaultValues: initialValues,
         resolver: zodResolver(schema),
@@ -22,12 +25,12 @@ const AppForm = ({ children, initialValues, onSubmit, schema }: AppFormProps) =>
         onSubmit(data);
         methods.reset();
     };
-
+    console.log(methods.formState.errors);
     return (
         <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(submit)}>
+            <Box component={'form'} sx={{ ...sx }} noValidate onSubmit={methods.handleSubmit(submit)}>
                 {children}
-            </form>
+            </Box>
         </FormProvider>
     );
 };

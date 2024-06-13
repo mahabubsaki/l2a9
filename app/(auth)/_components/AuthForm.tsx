@@ -10,21 +10,26 @@ import { TSchema } from '../_constants';
 
 type AuthFormProps = {
   type: TSchema;
-  fields: string[];
+  fields: { name: string, type: string; }[];
   initialValues: Record<string, any>;
 };
 
 const AuthForm = (props: AuthFormProps) => {
   const { fields, type, ...rest } = props;
   const schema = schemaCreator(type);
+
   const handleSubmit = (data: FieldValues) => {
     console.log(data);
   };
   return (
     <Box>
-      <AppForm {...rest} schema={schema} onSubmit={handleSubmit}>
-        <AppInput name={fields[0]} label={fields[0]} />
-        <Button type='submit'>Submit</Button>
+      <AppForm sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 500, mx: 'auto' }} {...rest} schema={schema} onSubmit={handleSubmit}>
+        {
+          fields.map(field => <AppInput key={field.name} name={field.name} label={field.name} type={field.type} />)
+        }
+        <Box display={'flex'} justifyContent={'end'} >
+          <Button variant='contained' type='submit'>Submit</Button>
+        </Box>
       </AppForm>
     </Box>
   );

@@ -1,7 +1,7 @@
 'use client';
 
 import { PaletteMode, ThemeOptions } from "@mui/material";
-import { amber, blue, green, red } from "@mui/material/colors";
+import { green, red } from "@mui/material/colors";
 
 
 
@@ -15,9 +15,7 @@ const getTheme = (mode: PaletteMode) => {
             },
 
         },
-        components: {
 
-        }
     };
     const darkTheme: ThemeOptions = {
         palette: {
@@ -26,20 +24,16 @@ const getTheme = (mode: PaletteMode) => {
                 main: red[500],
             },
         },
-        // components: {
-        //     MuiBadge: {
-        //         defaultProps: {
-        //             color: 'secondary',
-
-
-        //         }
-        //     }
-        // }
     };
 
     const commonTheme = mode === 'light' ? lightTheme : darkTheme;
 
-    return commonTheme;
+    const modifeidTheme: ThemeOptions = {
+        ...commonTheme,
+
+    };
+
+    return modifeidTheme;
 };
 
 

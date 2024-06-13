@@ -3,8 +3,7 @@ import React from 'react';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import NextJsLink from 'next/link';
 import AuthForm from '../_components/AuthForm';
-import { FieldValues } from 'react-hook-form';
-import { z } from 'zod';
+import { SIGN_UP_FIELDS, SIGN_UP_INITIAL_VALUES } from '../_constants';
 
 
 const SignUp = () => {
@@ -16,20 +15,22 @@ const SignUp = () => {
             backgroundImage: 'linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%)',
 
         }}>
-            <Link href={'/'} sx={{ textDecoration: 'none', color: 'black' }} component={NextJsLink}>
-                <Box sx={{ p: 4 }}>
+
+            <Box sx={{ p: 4 }}>
+                <Link href={'/'} sx={{ textDecoration: 'none', color: 'black', display: 'inline-block' }} component={NextJsLink}>
                     <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <KeyboardBackspaceIcon /> Back to Home
                     </Typography>
-                </Box>
-            </Link>
+                </Link>
+            </Box>
+
             <Box sx={{ width: 'clamp(350px,70%,90%)' }} margin={'auto'} >
                 <Box display={'flex'} flexDirection={'column'} gap={1}>
                     <Typography variant='h4' textAlign={'center'}>Sign Up</Typography>
                     <Typography variant='body1' textAlign={'center'}>Create an account to get started</Typography>
                 </Box>
                 <Box>
-                    <AuthForm type='sign-up' fields={['name']} initialValues={{ name: '' }} />
+                    <AuthForm type='sign-up' fields={SIGN_UP_FIELDS} initialValues={SIGN_UP_INITIAL_VALUES} />
                 </Box>
             </Box>
 

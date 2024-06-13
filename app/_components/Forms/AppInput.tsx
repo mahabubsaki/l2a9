@@ -1,7 +1,9 @@
-import { TextField } from '@mui/material';
+
+import { Box, TextField } from '@mui/material';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 type AppInputProps = {
     name: string;
     label: string;
@@ -10,27 +12,43 @@ type AppInputProps = {
 };
 
 
-const AppInput = ({ name, label, required = true, type = 'text' }: AppInputProps) => {
+const AppInput = ({ name, label, type = 'text' }: AppInputProps) => {
     const { control } = useFormContext();
+    const [inputType, setInputType] = React.useState(type);
     return (
         <Controller
             control={control}
             name={name}
-            render={({ field, fieldState: { error } }) => (
-                <TextField
-                    {...field}
+            render={({ field, fieldState: { error } }) => {
 
-                    label={label}
-                    type={type}
-                    variant="outlined"
+                return <Box position={'relative'} >
+                    <TextField
+                        {...field}
+                        InputLabelProps={{
+                            sx: {
+                                textTransform: 'capitalize'
+                            }
+                        }}
 
+                        fullWidth
 
-                    placeholder={label}
-                    required={required}
-                    error={!!error?.message}
-                    helperText={error?.message}
-                />
-            )}
+                        autoComplete='off'
+                        label={label}
+                        type={inputType}
+                        variant="outlined"
+                        placeholder={'Enter ' + label}
+                        error={!!error?.message}
+                        helperText={error?.message}
+                    />
+                    {
+                        inputType === 'password' ? <VisibilityIcon onClick={() => {
+                            setInputType('text');
+                        }} sx={{ display: type == 'password' ? 'inline-block' : 'none', position: 'absolute', right: 10, top: '50%', bottom: '50%', transform: error?.message ? 'translate(0px,-90%)' : 'translate(0px,-50%)', cursor: 'pointer' }} /> : <VisibilityOffIcon onClick={() => {
+                            setInputType('password');
+                        }} sx={{ display: type == 'password' ? 'inline-block' : 'none', position: 'absolute', right: 10, top: '50%', bottom: '50%', transform: error?.message ? 'translate(0px,-90%)' : 'translate(0px,-50%)', cursor: 'pointer' }} />
+                    }
+                </Box>;
+            }}
         />
     );
 };
