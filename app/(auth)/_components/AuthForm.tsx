@@ -1,11 +1,12 @@
 'use client';
 import AppForm from '@/app/_components/Forms/AppForm';
 import AppInput from '@/app/_components/Forms/AppInput';
-import schemaCreator from '@/app/_utils/schemaCreator';
+import schemaCreator from '@/app/(auth)/_utils/schemaCreator';
 import { Box, Button } from '@mui/material';
 import React from 'react';
 import { FieldValues } from 'react-hook-form';
 import { TSchema } from '../_constants';
+import { createUser } from '../_actions';
 
 
 type AuthFormProps = {
@@ -19,7 +20,7 @@ const AuthForm = (props: AuthFormProps) => {
   const schema = schemaCreator(type);
 
   const handleSubmit = (data: FieldValues) => {
-    console.log(data);
+    createUser(data);
   };
   return (
     <Box>
