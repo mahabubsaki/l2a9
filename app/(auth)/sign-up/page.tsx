@@ -4,9 +4,23 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import NextJsLink from 'next/link';
 import AuthForm from '../_components/AuthForm';
 import { SIGN_UP_FIELDS, SIGN_UP_INITIAL_VALUES } from '../_constants';
+import { verifySession } from '../_libs/session';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { deleteCookie } from '../_actions';
 
 
-const SignUp = () => {
+const SignUp = async () => {
+    const { isAuth } = await verifySession();
+
+    if (isAuth) {
+        cookies().set('session', '', {
+            maxAge: 0
+        });
+    }
+    if (!isAuth) {
+        deleteCookie('session');
+    }
 
     return (
         <Box sx={{

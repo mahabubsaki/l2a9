@@ -1,6 +1,9 @@
 import React from 'react';
+import { verifySession } from './_libs/session';
+import { redirect } from 'next/navigation';
 
-const AuthLayout = ({ children }: { children: React.ReactNode; }) => {
+const AuthLayout = async ({ children }: { children: React.ReactNode; }) => {
+
     return (
         children
     );

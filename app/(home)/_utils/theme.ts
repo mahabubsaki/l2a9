@@ -1,8 +1,11 @@
 'use client';
 
-import { PaletteMode, ThemeOptions } from "@mui/material";
+import { alpha, getContrastRatio, PaletteMode, ThemeOptions } from "@mui/material";
 import { green, red } from "@mui/material/colors";
 
+
+const redBase = '#7F00FF';
+const redMain = alpha(redBase, 0.7);
 
 
 
@@ -14,6 +17,7 @@ const getTheme = (mode: PaletteMode) => {
                 main: green[500],
             },
 
+
         },
 
     };
@@ -22,7 +26,7 @@ const getTheme = (mode: PaletteMode) => {
             mode,
             primary: {
                 main: red[500],
-            },
+            }
         },
     };
 

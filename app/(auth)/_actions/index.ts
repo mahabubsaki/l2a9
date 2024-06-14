@@ -1,6 +1,8 @@
 'use server';
 
 import envConfig from "@/app/_configs/env.config";
+import { createSession } from "../_libs/session";
+import { cookies } from "next/headers";
 
 
 const createUser = async (data) => {
@@ -13,9 +15,17 @@ const createUser = async (data) => {
         method: 'POST'
     });
     const json = await response.json();
+    if (!json.success) throw new Error(json.message || 'Failed to create user.');
+    await createSession(json.id);
+
     return json;
+
+};
+const deleteCookie = async (name: string) => {
+    cookies().delete(name);
 };
 
 export {
-    createUser
+    createUser,
+    deleteCookie
 };
