@@ -1,6 +1,8 @@
 import { deleteSession } from '@/app/(auth)/_libs/session';
-import { Avatar, Button, Link, Tooltip, Typography } from '@mui/material';
+import { Avatar, Button, Tooltip, Typography } from '@mui/material';
 import React from 'react';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import Link from 'next/link';
 
 type ToggleNavProfileProps = {
     handleDrawerToggle: () => void,
@@ -27,6 +29,12 @@ const ToggleNavProfile = ({ handleDrawerToggle, user }: ToggleNavProfileProps) =
                 Logout
             </Typography>
         </Button>
+        {user.role === 'admin' ? <Tooltip title="Dashboard">
+            <Link href='/dashboard'>
+                <Button>
+                    <DashboardIcon color='secondary' />
+                </Button></Link>
+        </Tooltip> : null}
     </>
 
         ;

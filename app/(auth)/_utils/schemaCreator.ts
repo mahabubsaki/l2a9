@@ -18,6 +18,9 @@ const signUpZodSchema = z.object({
     confirmPassword: z.string().nonempty({
         message: 'Please confirm your password'
 
+    }),
+    role: z.enum(['admin', 'user'], {
+        message: 'Role required'
     })
 }).refine(data => data.confirmPassword === data.password, {
     message: 'Passwords do not match',

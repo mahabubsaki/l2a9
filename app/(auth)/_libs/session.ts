@@ -15,7 +15,7 @@ export async function encrypt(payload: { [key: string]: any; }) {
     return new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
-        .setExpirationTime('1hr')
+        .setExpirationTime('12hr')
         .sign(key);
 }
 
@@ -26,14 +26,14 @@ export async function decrypt(session: string | undefined = '') {
         });
         return payload;
     } catch (error) {
-        console.log('Failed to verify session');
+        console.log('Failed to verify session', error);
         return null;
     }
 }
 
 
 export async function createSession(userId: string) {
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    const expiresAt = new Date(Date.now() + 12 * 60 * 60 * 1000);
     const response = await fetch(envConfig.baseURL + '/session', {
         body: JSON.stringify({ userId, expiresAt }),
         headers: {
@@ -62,7 +62,7 @@ export async function verifySession() {
     }
 
     const session = await decrypt(cookie);
-    console.log({ session });
+    console.log({ session, cookie });
     if (!session?.userId) {
 
         return { isAuth: false };

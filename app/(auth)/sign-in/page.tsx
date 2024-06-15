@@ -43,7 +43,7 @@ const LoginPage = async () => {
             </Box>
 
             <Typography textAlign={'center'}>
-                New to PristinePro? <Link href={'/sign-up'}>Register</Link> Now!
+                New to PristinePro? <Link component={NextJsLink} href={'/sign-up'}>Register</Link> Now!
             </Typography>
         </Box>
     );

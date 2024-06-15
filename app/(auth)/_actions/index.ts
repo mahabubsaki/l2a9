@@ -7,9 +7,9 @@ import { FieldValues } from "react-hook-form";
 
 
 const createUser = async (data: FieldValues) => {
-    const { email, password, name } = data;
+    const { email, password, name, role } = data;
     const response = await fetch(envConfig.baseURL + '/register', {
-        body: JSON.stringify({ email, password, name }),
+        body: JSON.stringify({ email, password, name, role }),
         headers: {
             'Content-Type': 'application/json'
         },

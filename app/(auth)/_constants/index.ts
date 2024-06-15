@@ -18,6 +18,10 @@ export const SIGN_UP_FIELDS = [{
 {
     type: 'password',
     name: 'confirmPassword',
+},
+{
+    type: 'select',
+    name: 'role',
 }
 ];
 
@@ -25,7 +29,8 @@ export const SIGN_UP_INITIAL_VALUES = {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role: ''
 } as Record<typeof SIGN_UP_FIELDS[number]['name'], any>;
 
 export const SIGN_IN_FIELDS = [{
