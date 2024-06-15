@@ -6,21 +6,17 @@ import AuthForm from '../_components/AuthForm';
 import { SIGN_UP_FIELDS, SIGN_UP_INITIAL_VALUES } from '../_constants';
 import { verifySession } from '../_libs/session';
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
-import { deleteCookie } from '../_actions';
+
 
 
 const SignUp = async () => {
     const { isAuth } = await verifySession();
-
     if (isAuth) {
-        cookies().set('session', '', {
-            maxAge: 0
-        });
+        redirect('/');
     }
-    if (!isAuth) {
-        deleteCookie('session');
-    }
+
+
+
 
     return (
         <Box sx={{
@@ -44,7 +40,7 @@ const SignUp = async () => {
                     <Typography variant='body1' textAlign={'center'}>Create an account to get started</Typography>
                 </Box>
                 <Box>
-                    <AuthForm type='sign-up' fields={SIGN_UP_FIELDS} initialValues={SIGN_UP_INITIAL_VALUES} />
+                    <AuthForm isAuth={isAuth} type='sign-up' fields={SIGN_UP_FIELDS} initialValues={SIGN_UP_INITIAL_VALUES} />
                 </Box>
             </Box>
 

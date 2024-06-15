@@ -3,25 +3,32 @@ import AppForm from '@/app/_components/Forms/AppForm';
 import AppInput from '@/app/_components/Forms/AppInput';
 import schemaCreator from '@/app/(auth)/_utils/schemaCreator';
 import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { TSchema } from '../_constants';
-import { createUser } from '../_actions';
+import { createUser, deleteCookie } from '../_actions';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { createSession } from '../_libs/session';
+import { useRouter } from 'next/navigation';
 
 
 type AuthFormProps = {
   type: TSchema;
   fields: { name: string, type: string; }[];
   initialValues: Record<string, any>;
+  isAuth: boolean;
 };
 
 const AuthForm = (props: AuthFormProps) => {
-  const { fields, type, ...rest } = props;
+  const { fields, type, isAuth, ...rest } = props;
+  const router = useRouter();
+  useEffect(() => {
+    if (!isAuth) {
+      deleteCookie('session');
+    }
+  }, [isAuth]);
 
-  const { mutate: mutateCreate, error, isError, isPending, isSuccess, data } = useMutation({
+  const { mutate: mutateCreate, error, isError, isPending, } = useMutation({
     mutationFn: createUser,
 
   });
@@ -34,6 +41,7 @@ const AuthForm = (props: AuthFormProps) => {
       onSuccess: async (data) => {
 
         toast.success(data.message);
+        router.replace('/');
       }
     });
   };

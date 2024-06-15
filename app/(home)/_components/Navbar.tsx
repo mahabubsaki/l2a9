@@ -1,5 +1,5 @@
 'use client';
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,12 +15,31 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Badge, Skeleton } from '@mui/material';
+import { Avatar, Badge, Skeleton } from '@mui/material';
 import { drawerWidth, navItems } from '../_constants';
 import dynamic from 'next/dynamic';
 import useThemeContext from '../_hooks/useThemeContext';
 import Link from 'next/link';
-const ThemeSwitch = dynamic(() => import('../_components/ThemeSwitch'), { ssr: false });
+import { verifySession } from '@/app/(auth)/_libs/session';
+import { useQueryClient } from '@tanstack/react-query';
+import envConfig from '@/app/_configs/env.config';
+import { useAxiosSecure } from '@/app/_hooks/useAxiosSecure';
+
+const ThemeSwitch = dynamic(() => import('../_components/ThemeSwitch'), {
+    ssr: false, loading: () => {
+        return <Button>
+            <Skeleton variant='rectangular' animation='pulse' sx={{ borderRadius: 40 }} width={48} height={30} />
+        </Button>;
+    }
+});
+const ToggleNavProfile = dynamic(() => import('./ToggleNavProfile'), {
+    ssr: false, loading: () => {
+        return <Button>
+            <Skeleton variant='circular' animation='pulse' width={40} height={40} />
+        </Button>;
+
+    }
+});
 
 
 interface Props {
@@ -35,6 +54,30 @@ interface Props {
 export default function Navbar(props: Props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [user, setUser] = useState(null);
+    const qeuryClient = useQueryClient();
+    const axiosSecure = useAxiosSecure();
+
+    useEffect(() => {
+        (async function () {
+            const { isAuth, userId } = await verifySession();
+
+            if (isAuth) {
+                const data = await qeuryClient.fetchQuery({
+                    queryKey: ['user', userId],
+                    queryFn: async () => {
+                        const { data } = await axiosSecure(`${envConfig.publicBaseURL}/user/${userId}`);
+
+                        return data.data;
+                    },
+
+                });
+                setUser(data);
+
+
+            }
+        })();
+    }, []);
 
 
 
@@ -115,11 +158,7 @@ export default function Navbar(props: Props) {
                             </Badge>
                         </Button>
                         <ThemeSwitch />
-                        <Link href={'/sign-up'}>
-                            <Button onClick={handleDrawerToggle} variant='contained'>
-                                Join Now
-                            </Button>
-                        </Link>
+                        <ToggleNavProfile handleDrawerToggle={handleDrawerToggle} user={user} />
 
                     </Box>
                 </Toolbar>
