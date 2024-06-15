@@ -42,6 +42,9 @@ const SignUp = async () => {
                 <Box>
                     <AuthForm isAuth={isAuth} type='sign-up' fields={SIGN_UP_FIELDS} initialValues={SIGN_UP_INITIAL_VALUES} />
                 </Box>
+                <Typography textAlign={'center'}>
+                    Already have an account? <Link href={'/sign-in'}>Login</Link>
+                </Typography>
             </Box>
 
         </Box>

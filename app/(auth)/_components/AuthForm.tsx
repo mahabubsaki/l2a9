@@ -6,7 +6,7 @@ import { Box, Button, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { TSchema } from '../_constants';
-import { createUser, deleteCookie } from '../_actions';
+import { createUser, deleteCookie, signInUser } from '../_actions';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
@@ -29,14 +29,16 @@ const AuthForm = (props: AuthFormProps) => {
   }, [isAuth]);
 
   const { mutate: mutateCreate, error, isError, isPending, } = useMutation({
-    mutationFn: createUser,
+    mutationFn: type === 'sign-up' ? createUser : signInUser,
 
   });
+
+
 
   const schema = schemaCreator(type);
 
   const handleSubmit = (data: FieldValues) => {
-    if (type === 'sign-up') mutateCreate(data, {
+    mutateCreate(data, {
       onError: (error) => console.log(error.message),
       onSuccess: async (data) => {
 

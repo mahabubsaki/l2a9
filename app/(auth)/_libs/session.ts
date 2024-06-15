@@ -87,17 +87,18 @@ export async function verifySession() {
 
 export async function deleteSession() {
     const cookie = cookies().get('session')?.value;
+
     if (!cookie) {
         redirect('/sign-in');
     }
 
     const session = await decrypt(cookie);
-    if (!session?.sessionId) {
+    if (!session?.userId) {
         redirect('/sign-in');
     }
 
-    const sessionId = session.userId;
-    const response = await fetch(envConfig.baseURL + `/session/${sessionId}`, {
+    const userId = session.userId;
+    const response = await fetch(envConfig.baseURL + `/session/${userId}`, {
         method: 'DELETE'
     });
     const json = await response.json();
