@@ -29,12 +29,12 @@ const ToggleNavProfile = ({ handleDrawerToggle, user }: ToggleNavProfileProps) =
                 Logout
             </Typography>
         </Button>
-        {user.role === 'admin' ? <Tooltip title="Dashboard">
+        <Tooltip title="Dashboard">
             <Link href='/dashboard'>
                 <Button>
                     <DashboardIcon color='secondary' />
                 </Button></Link>
-        </Tooltip> : null}
+        </Tooltip>
     </>
 
         ;

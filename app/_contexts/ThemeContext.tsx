@@ -2,7 +2,8 @@
 
 import { PaletteMode, Theme, createTheme, useMediaQuery } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
-import getTheme from "../_utils/theme";
+import getTheme from "../(home)/_utils/theme";
+import ThemeWrapper from "../_wrappers/ThemeWrapper";
 
 export const ThemeContext = createContext<{
     mode: PaletteMode;
@@ -35,8 +36,12 @@ export default function ThemeProvider({ children }: { children: React.ReactNode;
 
     const theme = createTheme(getTheme(mode));
     return (
+
         <ThemeContext.Provider value={{ mode, setMode, theme, changeColorMode }}>
-            {children}
+            <ThemeWrapper>
+                {children}
+            </ThemeWrapper>
         </ThemeContext.Provider>
+
     );
 }

@@ -34,7 +34,14 @@ const getTheme = (mode: PaletteMode) => {
 
     const modifeidTheme: ThemeOptions = {
         ...commonTheme,
-
+        components: {
+            MuiLink: {
+                defaultProps: {
+                    color: 'inherit',
+                    underline: 'none'
+                }
+            }
+        }
     };
 
     return modifeidTheme;

@@ -1,7 +1,7 @@
 
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import Navbar from "./_components/Navbar";
-import RootContextProvider from './_contexts';
+import RootContextProvider from '../_contexts';
 
 
 export default function RootLayout({
@@ -12,18 +12,12 @@ export default function RootLayout({
   return (
 
 
-    <AppRouterCacheProvider>
+    <>
+      <Navbar />
+      {children}
 
 
-      <RootContextProvider>
-        <Navbar />
-        {children}
-      </RootContextProvider>
-
-
-    </AppRouterCacheProvider>
-
-
+    </>
 
 
   );

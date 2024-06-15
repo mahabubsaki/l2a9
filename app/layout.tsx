@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import TanstckProvider from './_providers/TanStack.provider';
 import SonnerProvider from './_providers/Sonner.provider';
+import RootContextProvider from './_contexts';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,11 +24,18 @@ const RootLayout = ({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <TanstckProvider>
-                    <SonnerProvider>
+                <AppRouterCacheProvider>
+
+
+                    <RootContextProvider>
+
                         {children}
-                    </SonnerProvider>
-                </TanstckProvider>
+                    </RootContextProvider>
+
+
+                </AppRouterCacheProvider>
+
+
 
 
             </body>
