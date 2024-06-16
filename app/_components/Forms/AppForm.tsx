@@ -9,7 +9,7 @@ type AppFormProps = {
     onSubmit: SubmitHandler<FieldValues>;
     initialValues: Record<string, any>;
     schema: any;
-    sx: SxProps;
+    sx?: SxProps;
 
 };
 

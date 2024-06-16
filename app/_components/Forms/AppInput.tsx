@@ -9,10 +9,12 @@ type AppInputProps = {
     label: string;
     required?: boolean;
     type?: string;
+    size?: 'small' | 'medium';
+    textarea?: boolean;
 };
 
 
-const AppInput = ({ name, label, type = 'text' }: AppInputProps) => {
+const AppInput = ({ name, label, type = 'text', size = 'small', textarea = false }: AppInputProps) => {
     const { control } = useFormContext();
     const [inputType, setInputType] = React.useState(type);
     return (
@@ -31,7 +33,9 @@ const AppInput = ({ name, label, type = 'text' }: AppInputProps) => {
                         }}
 
                         fullWidth
-
+                        size={size}
+                        multiline={textarea}
+                        rows={6}
                         autoComplete='off'
                         label={label}
                         type={inputType}
