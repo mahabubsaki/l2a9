@@ -57,12 +57,13 @@ export async function createSession(userId: string) {
 }
 export async function verifySession() {
     const cookie = cookies().get('session')?.value;
+
     if (!cookie) {
         return { isAuth: false };
     }
 
     const session = await decrypt(cookie);
-    console.log({ session, cookie });
+    // console.log({ session, cookie });
     if (!session?.userId) {
 
         return { isAuth: false };
@@ -71,15 +72,16 @@ export async function verifySession() {
     const response = await fetch(envConfig.baseURL + `/session?userId=${session.userId}`);
 
     const json = await response.json();
+
     if (!json.success) throw new Error(json.message || 'Failed to verify session');
     const dbSession = json.data[0];
     if (!dbSession) {
         return { isAuth: false, };
     }
-    if (new Date(dbSession.expiresAt) < new Date()) {
+    // if (new Date(dbSession.expiresAt) < new Date()) {
 
-        return { isAuth: false };
-    }
+    //     return { isAuth: false };
+    // }
 
 
     return { isAuth: true, userId: dbSession.userId };

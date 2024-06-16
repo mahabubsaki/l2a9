@@ -1,7 +1,7 @@
 'use client';
 
 import { alpha, getContrastRatio, PaletteMode, ThemeOptions } from "@mui/material";
-import { green, red } from "@mui/material/colors";
+import { green, purple, red, } from "@mui/material/colors";
 
 
 const redBase = '#7F00FF';
@@ -25,7 +25,7 @@ const getTheme = (mode: PaletteMode) => {
         palette: {
             mode,
             primary: {
-                main: red[500],
+                main: purple[500],
             }
         },
     };
@@ -40,7 +40,8 @@ const getTheme = (mode: PaletteMode) => {
                     color: 'inherit',
                     underline: 'none'
                 }
-            }
+            },
+
         }
     };
 

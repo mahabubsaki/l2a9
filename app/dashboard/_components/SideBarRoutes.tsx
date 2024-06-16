@@ -2,10 +2,15 @@ import React from 'react';
 import { ADMIN_ROUTES, USER_ROUTES } from '../_constants';
 import { Link, ListItem, ListItemButton, ListItemIcon, ListItemText, Skeleton } from '@mui/material';
 import NextJsLink from 'next/link';
+import { usePathname } from 'next/navigation';
 
 
 
 const SideBarRoutes = ({ role, isLoading }: { role: 'admin' | 'user'; isLoading: boolean; }) => {
+
+    const routes = role === 'admin' ? ADMIN_ROUTES : USER_ROUTES;
+    const pathName = usePathname();
+    console.log(pathName);
     if (isLoading) {
         return <>
             {
@@ -20,10 +25,9 @@ const SideBarRoutes = ({ role, isLoading }: { role: 'admin' | 'user'; isLoading:
             }
         </>;
     }
-    const routes = role === 'admin' ? ADMIN_ROUTES : USER_ROUTES;
     return routes.map(({ icon, name, url }) => <Link component={NextJsLink} key={name} href={url} >
         <ListItem disablePadding >
-            <ListItemButton>
+            <ListItemButton selected={url === pathName}  >
                 <ListItemIcon>
                     {icon}
                 </ListItemIcon>

@@ -10,6 +10,7 @@ type ToggleNavProfileProps = {
 };
 
 const ToggleNavProfile = ({ handleDrawerToggle, user }: ToggleNavProfileProps) => {
+    console.log('user', user);
     if (!user) {
         return <Link href={'/sign-up'}>
             <Button onClick={handleDrawerToggle} variant='contained'>

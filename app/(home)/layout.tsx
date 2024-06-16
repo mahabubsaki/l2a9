@@ -1,10 +1,10 @@
 
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+
 import Navbar from "./_components/Navbar";
-import RootContextProvider from '../_contexts';
 
 
-export default function RootLayout({
+
+export default function PrimaryLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

@@ -2,8 +2,7 @@ import React from 'react';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import TanstckProvider from './_providers/TanStack.provider';
-import SonnerProvider from './_providers/Sonner.provider';
+
 import RootContextProvider from './_contexts';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
