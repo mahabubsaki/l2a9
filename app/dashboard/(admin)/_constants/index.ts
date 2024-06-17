@@ -3,8 +3,8 @@ export const ADD_PRODUCT_INITIAL_VALUES = {
     price: '',
     description: '',
     category: '',
-    image: '',
-    size: '',
+    image: [],
+    size: [],
     gender: '',
     stock: '',
 };

@@ -11,10 +11,12 @@ type AppInputProps = {
     type?: string;
     size?: 'small' | 'medium';
     textarea?: boolean;
+    start?: string;
+    end?: string;
 };
 
 
-const AppInput = ({ name, label, type = 'text', size = 'small', textarea = false }: AppInputProps) => {
+const AppInput = ({ name, label, type = 'text', size = 'small', textarea = false, start, end }: AppInputProps) => {
     const { control } = useFormContext();
     const [inputType, setInputType] = React.useState(type);
     return (
@@ -23,6 +25,7 @@ const AppInput = ({ name, label, type = 'text', size = 'small', textarea = false
             name={name}
             render={({ field, fieldState: { error } }) => {
 
+
                 return <Box position={'relative'} >
                     <TextField
                         {...field}
@@ -30,6 +33,10 @@ const AppInput = ({ name, label, type = 'text', size = 'small', textarea = false
                             sx: {
                                 textTransform: 'capitalize'
                             }
+                        }}
+                        InputProps={{
+                            startAdornment: field.value ? start : undefined,
+                            endAdornment: end
                         }}
 
                         fullWidth
