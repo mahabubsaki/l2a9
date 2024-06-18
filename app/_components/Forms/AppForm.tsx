@@ -21,12 +21,11 @@ const AppForm = ({ children, initialValues, onSubmit, schema, sx }: AppFormProps
 
 
     const submit: SubmitHandler<FieldValues> = (data) => {
-        // console.log(data);
         onSubmit(data);
-        // methods.reset();
+        methods.reset();
     };
 
-    console.log(methods.formState.errors);
+
     return (
         <FormProvider {...methods}>
             <Box component={'form'} sx={{ ...sx }} noValidate onSubmit={methods.handleSubmit(submit)}>

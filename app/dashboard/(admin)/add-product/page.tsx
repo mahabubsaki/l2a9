@@ -15,12 +15,27 @@ import AppSelect from '@/app/_components/Forms/AppSelect';
 import { FieldValues } from 'react-hook-form';
 import { postProduct } from '../_actions';
 import { toast } from 'sonner';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 
 
 
 const AddProducts = () => {
     const formButtonRef = useRef<HTMLButtonElement | null>(null);
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+        //@ts-ignore
+        mutationFn: (data) => postProduct(data.body, data.images),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ['products'],
+
+            });
+            toast.success(data?.message || 'Product posted successfully');
+        }, onError: (err) => {
+            toast.error(err?.message || 'Failed to post product');
+        }
+    });
     const handleFormSubmit = async (data: FieldValues) => {
         const formData = new FormData();
         const images = data.image;
@@ -31,14 +46,11 @@ const AddProducts = () => {
                 formData.append(key, data[key]);
             }
         }
-        try {
-            const data = await postProduct(formData, images.map(i => i.file));
-            console.log(data);
-            toast.success(data?.message || 's');
-        } catch (err) {
-            console.log(err);
-            toast.error((err as Error).message || 'Failed to post product');
-        }
+        //@ts-ignore
+        mutate({
+            body: formData,
+            images: images.map((image: any) => image.file)
+        });
     };
 
     return (
