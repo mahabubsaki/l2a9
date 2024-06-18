@@ -23,7 +23,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 const AddProducts = () => {
     const formButtonRef = useRef<HTMLButtonElement | null>(null);
     const queryClient = useQueryClient();
-    const { mutate } = useMutation({
+    const { mutate, isPending } = useMutation({
         //@ts-ignore
         mutationFn: (data) => postProduct(data.body, data.images),
         onSuccess: (data) => {
@@ -62,7 +62,7 @@ const AddProducts = () => {
                     </Typography>
                 </Box>
                 <Box>
-                    <Button onClick={() => formButtonRef?.current?.click()} variant='contained' sx={{ display: 'flex', alignItems: 'center', gap: 1, borderRadius: 10 }} >
+                    <Button disabled={isPending} onClick={() => formButtonRef?.current?.click()} variant='contained' sx={{ display: 'flex', alignItems: 'center', gap: 1, borderRadius: 10 }} >
                         <DoneRoundedIcon /> Add Product
                     </Button>
                 </Box>

@@ -31,7 +31,7 @@ const ImageUploadSection = ({ name }: { name: string; }) => {
                         <Stack >
                             <Box maxWidth={300} sx={{ aspectRatio: '16/16', transform: 'translateX(-50%)', left: '50%', right: '50%', borderStyle: 'dotted' }} position={'relative'} borderRadius={2} overflow={'hidden'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                                 {
-                                    selectedImage ? <Image alt={'not-found-image'} fill src={selectedImage} /> : <Stack spacing={1}>
+                                    field?.value?.length > 0 ? <Image alt={'not-found-image'} fill src={selectedImage!} /> : <Stack spacing={1}>
                                         <Typography color={'error'} fontWeight={600}>No Image Selected</Typography>
                                         <Box display={'flex'} justifyContent={'center'}>
                                             <ImageIcon fontSize={'large'} />

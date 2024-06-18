@@ -59,11 +59,17 @@ const addProductSchema = z.object({
     }),
     discount: z.coerce.number({
         invalid_type_error: 'Discount must be a number'
-    }).positive({
-        message: 'Discount must be a positive number'
     }).max(100, {
         message: 'Discount must be at most 100'
-    }).optional(),
+    }).optional().refine(value => {
+
+        if (value !== undefined && value < 0) {
+            return false;
+        }
+        return true;
+    }, {
+        message: "Discount must be a positive number"
+    }),
     discountType: z.string().optional()
 
 
