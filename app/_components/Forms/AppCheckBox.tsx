@@ -9,7 +9,6 @@ const AppCheckBox = ({ name, fields }: { name: string; fields: string[]; }) => {
             control={control}
             name={name}
             render={({ field, fieldState: { error } }) => {
-                console.log(field.value);
                 return <>
                     <Stack direction={'row'} spacing={1}>
                         {

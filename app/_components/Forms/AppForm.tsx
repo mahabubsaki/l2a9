@@ -25,6 +25,7 @@ const AppForm = ({ children, initialValues, onSubmit, schema, sx }: AppFormProps
         onSubmit(data);
         // methods.reset();
     };
+
     console.log(methods.formState.errors);
     return (
         <FormProvider {...methods}>

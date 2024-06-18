@@ -1,4 +1,7 @@
+
 import { z } from "zod";
+import { PRODUCT_CATEGORY } from "../_constants";
+
 
 
 const addProductSchema = z.object({
@@ -44,13 +47,14 @@ const addProductSchema = z.object({
         })
     })).nonempty({
         message: 'At least one image required'
-    }).max(7, {
-        message: 'At most 7 images allowed'
+    }).max(3, {
+        message: 'At most 3 images allowed'
     }).refine((files) => files.every(obj => obj.file.size < 1024 * 1024 * 3), {
         message: 'Every image must be at most 3MB'
 
     }),
-    category: z.enum(['t-shirt', 'shirt', 'jeans', 'jacket', 'shoes', 'accessories'], {
+    //@ts-ignore
+    category: z.enum(PRODUCT_CATEGORY, {
         message: 'Category required'
     }),
     discount: z.coerce.number({

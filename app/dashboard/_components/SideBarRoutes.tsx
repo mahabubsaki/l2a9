@@ -10,7 +10,7 @@ const SideBarRoutes = ({ role, isLoading }: { role: 'admin' | 'user'; isLoading:
 
     const routes = role === 'admin' ? ADMIN_ROUTES : USER_ROUTES;
     const pathName = usePathname();
-    console.log(pathName);
+
     if (isLoading) {
         return <>
             {

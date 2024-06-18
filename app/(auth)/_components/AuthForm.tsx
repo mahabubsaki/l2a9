@@ -60,7 +60,7 @@ const AuthForm = (props: AuthFormProps) => {
       <AppForm sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 500, mx: 'auto', my: 2 }} {...rest} schema={schema} onSubmit={handleSubmit}>
         {
           fields.map(field => {
-            return field.type === 'select' ? <AppSelect key={field.name} name={field.name} label={field.name} /> : <AppInput key={field.name} name={field.name} label={field.name} type={field.type} />;
+            return field.type === 'select' ? <AppSelect menuItem={['admin', 'user']} key={field.name} name={field.name} label={field.name} /> : <AppInput key={field.name} name={field.name} label={field.name} type={field.type} />;
           })
         }
         <Box display={'flex'} justifyContent={'end'} >

@@ -6,17 +6,14 @@ const AppRadio = ({ name, fields }: { name: string; fields: string[]; }) => {
     const { control } = useFormContext();
     return (
         <Controller control={control} name={name} render={({ field, fieldState: { error } }) => {
-            console.log(field.value);
+
             return <FormControl>
 
                 <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                    onChange={(e) => {
-                        field.onChange(e.target.value);
 
-                    }}
+                    {...field}
                 >
 
 

@@ -105,7 +105,7 @@ export default function DashboardLayoutClient({
             setMobileOpen(!mobileOpen);
         }
     };
-    console.log({ isLoading });
+
 
     const drawer = (
         <Box >

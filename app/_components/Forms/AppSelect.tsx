@@ -2,7 +2,7 @@ import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-const AppSelect = ({ name, label }: { name: string, label: string; }) => {
+const AppSelect = ({ name, label, menuItem }: { name: string, label: string; menuItem: string[]; }) => {
     const { control } = useFormContext();
     return (
         <Controller
@@ -10,8 +10,8 @@ const AppSelect = ({ name, label }: { name: string, label: string; }) => {
             name={name}
             render={({ field, fieldState: { error } }) => {
 
-                return <FormControl error={!!error?.message}>
-                    <InputLabel id={name} sx={{ textTransform: 'capitalize' }}>{name}</InputLabel>
+                return <FormControl fullWidth error={!!error?.message}>
+                    <InputLabel id={name} sx={{ textTransform: 'capitalize' }}>{label}</InputLabel>
                     <Select
                         labelId={name}
                         id={name}
@@ -22,8 +22,12 @@ const AppSelect = ({ name, label }: { name: string, label: string; }) => {
 
 
                     >
-                        <MenuItem value={'admin'}>Admin</MenuItem>
-                        <MenuItem value={'user'}>User</MenuItem>
+                        {
+                            menuItem.map((item, index) => {
+                                return <MenuItem key={index} value={item} sx={{ textTransform: 'capitalize' }}>{item[0].toUpperCase() + item.slice(1)}</MenuItem>;
+                            })
+
+                        }
                     </Select>
                     <FormHelperText>{error?.message}</FormHelperText>
                 </FormControl>;

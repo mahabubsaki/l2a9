@@ -4,21 +4,41 @@ import React, { useRef } from 'react';
 import RestoreFromTrashRoundedIcon from '@mui/icons-material/RestoreFromTrashRounded';
 import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import AppForm from '@/app/_components/Forms/AppForm';
-import { ADD_PRODUCT_INITIAL_VALUES } from '../_constants';
+import { ADD_PRODUCT_INITIAL_VALUES, PRODUCT_CATEGORY } from '../_constants';
 import { addProductSchema } from '../_utils/schema';
 import AppInput from '@/app/_components/Forms/AppInput';
 import AppCheckBox from '@/app/_components/Forms/AppCheckBox';
 
 import AppRadio from '@/app/_components/Forms/AppRadio';
 import ImageUploadSection from '../_components/ImageUploadSection';
+import AppSelect from '@/app/_components/Forms/AppSelect';
+import { FieldValues } from 'react-hook-form';
+import { postProduct } from '../_actions';
+import { toast } from 'sonner';
 
 
 
 
 const AddProducts = () => {
     const formButtonRef = useRef<HTMLButtonElement | null>(null);
-    const handleFormSubmit = () => {
+    const handleFormSubmit = async (data: FieldValues) => {
+        const formData = new FormData();
+        const images = data.image;
+        for (const key in data) {
+            if (key === 'image') {
 
+            } else {
+                formData.append(key, data[key]);
+            }
+        }
+        try {
+            const data = await postProduct(formData, images.map(i => i.file));
+            console.log(data);
+            toast.success(data?.message || 's');
+        } catch (err) {
+            console.log(err);
+            toast.error((err as Error).message || 'Failed to post product');
+        }
     };
 
     return (
@@ -68,7 +88,7 @@ const AddProducts = () => {
                                     <AppInput start='$' type='number' name='price' label='Base Pricng' />
                                 </Box>
                                 <Box flex={1} >
-                                    <AppInput name='stock' label='Stock' />
+                                    <AppInput name='stock' type='number' label='Stock' />
                                 </Box>
                             </Stack>
                             <Stack direction={'row'} spacing={2}>
@@ -81,7 +101,15 @@ const AddProducts = () => {
                             </Stack>
                         </Stack>
                     </Stack>
-                    <ImageUploadSection name='image' />
+                    <Stack flex={3} spacing={3}>
+                        <ImageUploadSection name='image' />
+                        <Box>
+                            <Typography mb={2} variant='h6'>General Information</Typography>
+                            <Box width={'100%'}>
+                                <AppSelect label='Product Category' menuItem={PRODUCT_CATEGORY} name='category' />
+                            </Box>
+                        </Box>
+                    </Stack>
                 </Box>
                 <Button type='submit' sx={{ display: 'none' }} ref={formButtonRef}></Button>
             </AppForm>
