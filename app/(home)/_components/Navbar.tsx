@@ -61,7 +61,7 @@ export default function Navbar(props: Props) {
     useEffect(() => {
         (async function () {
             const { isAuth, userId } = await verifySession();
-            console.log(isAuth, userId, 'isAuth, userId');
+
             if (isAuth) {
                 const data = await qeuryClient.fetchQuery({
                     queryKey: ['user', userId],

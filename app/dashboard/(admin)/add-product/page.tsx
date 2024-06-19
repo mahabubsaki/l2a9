@@ -16,40 +16,46 @@ import { FieldValues } from 'react-hook-form';
 import { postProduct } from '../_actions';
 import { toast } from 'sonner';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import envConfig from '@/app/_configs/env.config';
+import { useAxiosPublic } from '@/app/_hooks/useAxiosPublic';
 
 
 
 
 const AddProducts = () => {
+
     const formButtonRef = useRef<HTMLButtonElement | null>(null);
-    const queryClient = useQueryClient();
+    const axiosPublic = useAxiosPublic();
     const { mutate, isPending } = useMutation({
         //@ts-ignore
         mutationFn: (data) => postProduct(data.body, data.images),
         onSuccess: (data) => {
-            queryClient.invalidateQueries({
-                queryKey: ['products'],
 
-            });
             toast.success(data?.message || 'Product posted successfully');
         }, onError: (err) => {
             toast.error(err?.message || 'Failed to post product');
         }
     });
     const handleFormSubmit = async (data: FieldValues) => {
-        const formData = new FormData();
-        const images = data.image;
-        for (const key in data) {
-            if (key === 'image') {
 
-            } else {
-                formData.append(key, data[key]);
-            }
-        }
+
+        const images = data.image;
+
+
+        const imageFormData = new FormData();
+        images.forEach((image: Record<string, any>) => {
+            imageFormData.append(`files`, image.file);
+        });
+
+        const { data: response } = await axiosPublic.post(envConfig.publicBaseURL + '/upload', imageFormData, { headers: { 'Content-Type': 'multipart/form-data' } });;
+        if (!response.success) return toast.error(response.message || 'Failed to upload images');
+
+        const { image, ...rest } = data;
+
         //@ts-ignore
         mutate({
-            body: formData,
-            images: images.map((image: any) => image.file)
+            body: rest,
+            images: response.data
         });
     };
 

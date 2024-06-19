@@ -23,12 +23,14 @@ const AppInput = ({ name, label, type = 'text', size = 'small', textarea = false
         <Controller
             control={control}
             name={name}
+
             render={({ field, fieldState: { error } }) => {
 
 
                 return <Box position={'relative'} >
                     <TextField
                         {...field}
+                        onChange={(e) => field.onChange(type === 'number' ? parseFloat(e.target.value) : e.target.value)}
                         InputLabelProps={{
                             sx: {
                                 textTransform: 'capitalize'

@@ -4,6 +4,7 @@ import envConfig from "@/app/_configs/env.config";
 import { createSession } from "../_libs/session";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
+import { revalidateTag } from "next/cache";
 
 
 const createUser = async (data: FieldValues) => {
@@ -13,7 +14,7 @@ const createUser = async (data: FieldValues) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        method: 'POST'
+        method: 'POST',
     });
     const json = await response.json();
     if (!json.success) throw new Error(json.message || 'Failed to create user.');
@@ -29,7 +30,7 @@ const signInUser = async (data: FieldValues) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        method: 'POST'
+        method: 'POST',
     });
     const json = await response.json();
     if (!json.success) throw new Error(json.message || 'Failed to login.');
@@ -42,6 +43,7 @@ const signInUser = async (data: FieldValues) => {
 
 const deleteCookie = async (name: string) => {
     cookies().delete(name);
+    revalidateTag('user');
 };
 
 export {

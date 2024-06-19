@@ -1,35 +1,34 @@
+'use server';
 import envConfig from "@/app/_configs/env.config";
+import { revalidateTag } from "next/cache";
 
-const postProduct = async (data: FormData, images: File[]) => {
+const postProduct = async (data: Record<string, any>, images: string[]) => {
+    const { size, ...restData } = data;
 
-    const imageFormData = new FormData();
+    const formData = new FormData();
+    for (const key in restData) {
+        formData.append(key, restData[key]);
+    }
 
-    images.forEach((image) => {
-        imageFormData.append(`files`, image);
+
+
+    images.forEach((image: string) => {
+        formData.append('images[]', image);
+
     });
-
-    const response1 = await fetch(envConfig.publicBaseURL + '/upload', {
-        method: 'POST',
-        body: imageFormData
-    });
-    const json1 = await response1.json();
-    if (!json1.success) throw new Error(json1.message || 'Failed to upload image');
-    console.log(json1);
-
-
-    json1.data.forEach((image: string) => {
-        data.append('images[]', image);
-
+    size.forEach((size: string) => {
+        formData.append('size[]', size);
     });
     const response = await fetch(envConfig.publicBaseURL + '/product', {
         method: 'POST',
-        body: new URLSearchParams(data as any),
+        body: new URLSearchParams(formData as any),
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     });
     const json = await response.json();
     if (!json.success) throw new Error(json.message || 'Failed to post product');
+    revalidateTag('products');
     return json;
 
 };

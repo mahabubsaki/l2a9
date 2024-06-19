@@ -31,6 +31,7 @@ const AuthForm = (props: AuthFormProps) => {
 
   const { mutate: mutateCreate, error, isError, isPending, } = useMutation({
     mutationFn: type === 'sign-up' ? createUser : signInUser,
+    mutationKey: [type === 'sign-up' ? 'createUser' : 'signInUser']
 
   });
 

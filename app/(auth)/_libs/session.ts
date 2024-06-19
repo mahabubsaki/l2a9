@@ -8,6 +8,7 @@ const key = new TextEncoder().encode(secretKey);
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidateTag } from 'next/cache';
 
 
 
@@ -41,6 +42,7 @@ export async function createSession(userId: string) {
         },
         method: 'POST'
     });
+    revalidateTag('session');
     const json = await response.json();
     if (!json.success) throw new Error(json.message || 'Failed to create session');
 
@@ -69,7 +71,11 @@ export async function verifySession() {
         return { isAuth: false };
     }
 
-    const response = await fetch(envConfig.baseURL + `/session?userId=${session.userId}`);
+    const response = await fetch(envConfig.baseURL + `/session?userId=${session.userId}`, {
+        next: {
+            tags: ['session']
+        }
+    });
 
     const json = await response.json();
 
@@ -101,8 +107,9 @@ export async function deleteSession() {
 
     const userId = session.userId;
     const response = await fetch(envConfig.baseURL + `/session/${userId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
     });
+    revalidateTag('session');
     const json = await response.json();
     if (!json.success) throw new Error(json.message || 'Failed to delete session');
     cookies().delete('session');
