@@ -30,7 +30,7 @@ const AppInput = ({ name, label, type = 'text', size = 'small', textarea = false
                 return <Box position={'relative'} >
                     <TextField
                         {...field}
-                        onChange={(e) => field.onChange(type === 'number' ? parseFloat(e.target.value) : e.target.value)}
+                        onChange={(e) => field.onChange(type === 'number' && e.target.value ? parseFloat(e.target.value) : e.target.value)}
                         InputLabelProps={{
                             sx: {
                                 textTransform: 'capitalize'

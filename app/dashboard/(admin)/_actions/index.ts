@@ -13,7 +13,7 @@ const postProduct = async (data: Record<string, any>, images: string[]) => {
 
 
     images.forEach((image: string) => {
-        formData.append('images[]', image);
+        formData.append('image[]', image);
 
     });
     size.forEach((size: string) => {
@@ -33,6 +33,17 @@ const postProduct = async (data: Record<string, any>, images: string[]) => {
 
 };
 
+
+
+const deleteProduct = async (id: string) => {
+
+};
+
+
+
 export {
-    postProduct
+    postProduct,
+
+    deleteProduct,
+
 };

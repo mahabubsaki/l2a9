@@ -10,6 +10,7 @@ const AppSelect = ({ name, label, menuItem }: { name: string, label: string; men
             name={name}
             render={({ field, fieldState: { error } }) => {
 
+
                 return <FormControl fullWidth error={!!error?.message}>
                     <InputLabel id={name} sx={{ textTransform: 'capitalize' }}>{label}</InputLabel>
                     <Select

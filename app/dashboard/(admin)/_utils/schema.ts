@@ -44,14 +44,18 @@ const addProductSchema = z.object({
         url: z.string(),
         file: z.instanceof(File).refine((file) => file.size < 1024 * 1024 * 3, {
             message: 'File size must be at most 3MB'
-        })
+        }),
+        deleted: z.boolean()
     })).nonempty({
         message: 'At least one image required'
-    }).max(3, {
-        message: 'At most 3 images allowed'
     }).refine((files) => files.every(obj => obj.file.size < 1024 * 1024 * 3), {
         message: 'Every image must be at most 3MB'
 
+    }).refine((files) => files.some(obj => obj.deleted === false), {
+        message: 'At least one image required'
+
+    }).refine((files) => files.filter(i => i.deleted === false).length <= 3, {
+        message: 'At most 3 images allowed'
     }),
     //@ts-ignore
     category: z.enum(PRODUCT_CATEGORY, {

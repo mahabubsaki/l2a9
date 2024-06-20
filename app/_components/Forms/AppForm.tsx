@@ -20,9 +20,12 @@ const AppForm = ({ children, initialValues, onSubmit, schema, sx }: AppFormProps
     });
 
 
+
+
     const submit: SubmitHandler<FieldValues> = (data) => {
+
         onSubmit(data);
-        methods.reset();
+        // methods.reset();
     };
 
 

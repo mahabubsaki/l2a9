@@ -18,7 +18,7 @@ const Products = async () => {
         discountType: product.discountType,
         category: product.category,
         size: product.size,
-
+        action: product._id
     }));
     return (
         <Box>

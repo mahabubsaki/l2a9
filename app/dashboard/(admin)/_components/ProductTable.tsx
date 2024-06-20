@@ -1,8 +1,13 @@
 'use client';
-import { Box } from '@mui/material';
+import { Box, Button, IconButton, Stack } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
 import { PRODUCT_ENUM } from '../_constants';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from '@mui/icons-material/Edit';
+import { deleteProduct } from '../_actions';
+import Link from 'next/link';
 
 
 
@@ -20,11 +25,11 @@ const ProductTable = ({ convertedRows }: { convertedRows: Array<Record<string, a
         },
         {
             field: 'price',
-            headerName: 'Price',
+            headerName: 'Price($)',
             type: 'number',
             width: 150,
             editable: true,
-            sortable: true
+            sortable: true,
         },
         {
             field: 'stock',
@@ -58,6 +63,7 @@ const ProductTable = ({ convertedRows }: { convertedRows: Array<Record<string, a
             width: 150,
             editable: true,
             renderCell: (params: Record<string, any>) => {
+                // @ts-ignore
                 return PRODUCT_ENUM[params.value];
             }
         },
@@ -68,8 +74,33 @@ const ProductTable = ({ convertedRows }: { convertedRows: Array<Record<string, a
             width: 150,
             editable: true,
             renderCell: (params: Record<string, any>) => {
-                return <Box>{params.value.map(s => s.toUpperCase()).join(', ')}</Box>;
+                return <Box>{params.value.map((s: string) => s.toUpperCase()).join(', ')}</Box>;
             },
+        },
+        {
+            field: 'action',
+            headerName: 'Actions',
+            width: 150,
+            renderCell: (params: Record<string, any>) => {
+                return <>
+
+                    <Link href={`/laundry-products/${params.value}`}>
+                        <IconButton aria-label="details">
+                            <InfoIcon />
+                        </IconButton></Link>
+                    <IconButton onClick={() => deleteProduct(params.value)} aria-label="delete">
+                        <DeleteIcon />
+                    </IconButton>
+
+                    <Link href={`/dashboard/update-product/${params.value}`}>
+                        <IconButton aria-label="edit">
+                            <EditIcon />
+                        </IconButton>
+                    </Link>
+
+
+                </>;
+            }
         }
 
 

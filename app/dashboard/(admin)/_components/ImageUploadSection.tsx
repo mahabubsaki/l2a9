@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
 
-const ImageUploadSection = ({ name }: { name: string; }) => {
+const ImageUploadSection = ({ name }: { name: string; images?: Record<string, any>; }) => {
     const { control } = useFormContext();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [swiperRef, setSwiperRef] = useState<SwiperClass>();
@@ -24,6 +24,7 @@ const ImageUploadSection = ({ name }: { name: string; }) => {
             control={control}
             render={({ field, fieldState: { error } }) => {
 
+                console.log(field.value);
                 return <Stack sx={{ userSelect: 'none' }} spacing={3} overflow={'hidden'} >
                     <Stack p={2} spacing={2} >
                         <Typography variant='h6'>Product Image</Typography>
@@ -31,7 +32,7 @@ const ImageUploadSection = ({ name }: { name: string; }) => {
                         <Stack >
                             <Box maxWidth={300} sx={{ aspectRatio: '16/16', transform: 'translateX(-50%)', left: '50%', right: '50%', borderStyle: 'dotted' }} position={'relative'} borderRadius={2} overflow={'hidden'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                                 {
-                                    field?.value?.length > 0 ? <Image alt={'not-found-image'} fill src={selectedImage!} /> : <Stack spacing={1}>
+                                    field.value?.filter((i: Record<string, any>) => !i.deleted).length > 0 ? <Image alt={'not-found-image'} fill src={selectedImage ? selectedImage : field.value?.filter((i: Record<string, any>) => !i.deleted)[0].url} /> : <Stack spacing={1}>
                                         <Typography color={'error'} fontWeight={600}>No Image Selected</Typography>
                                         <Box display={'flex'} justifyContent={'center'}>
                                             <ImageIcon fontSize={'large'} />
@@ -43,7 +44,7 @@ const ImageUploadSection = ({ name }: { name: string; }) => {
                         <Box display={'flex'}>
                             <Box flex={3} overflow={'hidden'} pl={3} pr={2.5} position={'relative'}>
 
-                                {field.value?.length > 3 ? <>
+                                {field.value?.filter((i: Record<string, any>) => !i.deleted).length > 3 ? <>
                                     <NavigateBeforeIcon aria-disabled onClick={() => {
                                         swiperRef?.slidePrev();
                                     }} sx={{
@@ -75,19 +76,22 @@ const ImageUploadSection = ({ name }: { name: string; }) => {
                                     slidesPerView={3}
                                     onSwiper={setSwiperRef}
                                 >
-                                    {field.value?.length ? field.value.map((image: Record<string, any>, index: number) => {
+                                    {field.value?.filter((i: Record<string, any>) => !i.deleted).length ? field.value?.filter((i: Record<string, any>) => !i.deleted).map((image: Record<string, any>, index: number) => {
                                         return <SwiperSlide key={index}>
                                             <Box onClick={() => {
                                                 setSelectedImage(image.url);
-                                            }} sx={{ aspectRatio: '16/16', overflow: 'hidden', width: 80, borderRadius: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', border: image.url === selectedImage ? 1 : 0, cursor: 'pointer', borderColor: 'blue' }}>
+                                            }} sx={{ aspectRatio: '16/16', overflow: 'hidden', width: 80, borderRadius: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', border: image.url === (selectedImage || field.value?.filter((i: Record<string, any>) => !i.deleted)[0]?.url) ? 1 : 0, cursor: 'pointer', borderColor: 'blue' }}>
                                                 <Image alt={'image' + index} fill src={image.url} />
                                                 <DeleteIcon color='primary' onClick={(e) => {
+                                                    const current = field.value.find((item: Record<string, any>) => item.url === image.url);
+                                                    current.deleted = true;
                                                     const rest = field.value.filter((item: Record<string, any>) => item.url !== image.url);
-                                                    field.onChange(rest);
+                                                    const all = [...rest, current];
+                                                    field.onChange(all);
                                                     if (selectedImage === image.url) {
                                                         setSelectedImage(null);
                                                     }
-                                                    if (rest.length) setSelectedImage(rest[0].url);
+                                                    if (all.filter(i => !i.deleted).length) setSelectedImage(all.filter(i => !i.deleted)[0].url);
                                                     e.stopPropagation();
                                                 }} fontSize='small' sx={{
                                                     position: 'absolute', top: 0, right: 0,
@@ -104,7 +108,7 @@ const ImageUploadSection = ({ name }: { name: string; }) => {
 
                                 </Swiper>
                             </Box>
-                            {field.value?.length === 3 ? null : <Box flex={1}>
+                            {field.value?.filter((i: Record<string, any>) => !i.deleted).length === 3 ? null : <Box flex={1}>
 
                                 <Box sx={{ aspectRatio: '16/16', width: 80, borderRadius: 2, borderStyle: 'dashed', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', }}>
                                     <input type='file' onChange={(e) => {
@@ -117,8 +121,8 @@ const ImageUploadSection = ({ name }: { name: string; }) => {
                                             return;
                                         }
                                         const url = URL.createObjectURL(file);
-                                        field.onChange([...field.value, { url, file }]);
-                                        if (field.value?.length === 0) {
+                                        field.onChange([...field.value, { url, file, deleted: false }]);
+                                        if (field.value?.filter((i: Record<string, any>) => !i.deleted).length === 0) {
                                             setSelectedImage(url);
                                         }
                                         e.target.value = '';
