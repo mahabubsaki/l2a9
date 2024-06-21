@@ -4,6 +4,7 @@ import { PRODUCT_CATEGORY } from "../_constants";
 
 
 
+
 const addProductSchema = z.object({
     name: z.string().min(5, {
         message: 'Name must be at least 5 characters long'

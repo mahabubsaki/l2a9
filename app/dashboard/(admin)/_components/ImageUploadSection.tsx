@@ -24,7 +24,7 @@ const ImageUploadSection = ({ name }: { name: string; images?: Record<string, an
             control={control}
             render={({ field, fieldState: { error } }) => {
 
-                console.log(field.value);
+
                 return <Stack sx={{ userSelect: 'none' }} spacing={3} overflow={'hidden'} >
                     <Stack p={2} spacing={2} >
                         <Typography variant='h6'>Product Image</Typography>

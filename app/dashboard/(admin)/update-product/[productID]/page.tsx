@@ -1,7 +1,15 @@
 
 import React from 'react';
 import { getSingleProduct } from '../../_fetchers';
-import ResuableProductForm from '../../_components/ResuableProductForm';
+import cDynamic from 'next/dynamic';
+import { Skeleton } from '@mui/material';
+// import ResuableProductForm from '../../_components/ResuableProductForm';
+const ReusableProdcutForm = cDynamic(() => import('../../_components/ResuableProductForm'), {
+    ssr: false,
+    loading: () => {
+        return <Skeleton width={'100%'} height={500} />;
+    }
+});
 
 export const dynamic = 'force-dynamic';
 
@@ -10,7 +18,7 @@ const UpdateProductPage = async ({ params }: { params: Record<string, any>; }) =
 
 
     return (
-        <ResuableProductForm defaults={product.data} type='put' />
+        <ReusableProdcutForm defaults={product.data} type='put' />
     );
 };
 
