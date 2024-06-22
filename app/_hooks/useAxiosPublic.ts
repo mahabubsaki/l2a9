@@ -1,11 +1,9 @@
 import axios from "axios";
+import envConfig from "../_configs/env.config";
 
 export const useAxiosPublic = () => {
     const instance = axios.create({
-        baseURL: "http://localhost:3001",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        baseURL: envConfig.publicBaseURL,
     });
     return instance;
 };

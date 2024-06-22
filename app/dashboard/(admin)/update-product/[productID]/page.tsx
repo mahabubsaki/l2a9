@@ -18,7 +18,7 @@ const UpdateProductPage = async ({ params }: { params: Record<string, any>; }) =
 
 
     return (
-        <ReusableProdcutForm defaults={product.data} type='put' />
+        <ReusableProdcutForm defaults={product.data} id={params.productID} type='put' />
     );
 };
 

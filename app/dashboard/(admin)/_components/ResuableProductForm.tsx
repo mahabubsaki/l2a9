@@ -1,6 +1,6 @@
 'use client';
 import { alpha, Box, Button, NoSsr, Skeleton, Stack, Typography } from '@mui/material';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import RestoreFromTrashRoundedIcon from '@mui/icons-material/RestoreFromTrashRounded';
 import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import AppForm from '@/app/_components/Forms/AppForm';
@@ -17,46 +17,78 @@ import { postProduct } from '../_actions';
 import { toast } from 'sonner';
 import { useMutation, } from '@tanstack/react-query';
 import envConfig from '@/app/_configs/env.config';
-import { useAxiosPublic } from '@/app/_hooks/useAxiosPublic';
+
+import { useAxiosSecure } from '@/app/_hooks/useAxiosSecure';
+import { deleteSession } from '@/app/(auth)/_libs/session';
 
 
 
-const ResuableProductForm = ({ type, defaults }: { type: 'post' | 'put'; defaults?: Record<string, any>; }) => {
+const ResuableProductForm = ({ type, defaults, id }: { type: 'post' | 'put'; defaults?: Record<string, any>; id?: string; }) => {
 
     const formButtonRef = useRef<HTMLButtonElement | null>(null);
-    const axiosPublic = useAxiosPublic();
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+
+        if (loading) {
+            toast.loading('uploading images', {
+                id: 'uploading'
+            });
+        } else {
+            toast.dismiss('uploading');
+        }
+    }, [loading]);
+    const axiosSecure = useAxiosSecure();
     const { mutate, isPending } = useMutation({
         //@ts-ignore
         mutationFn: (data) => postProduct(data.body, data.images),
         mutationKey: [type === 'post' ? 'postProduct' : 'putProduct'],
         onSuccess: (data) => {
 
-            toast.success(data?.message || 'Product posted successfully');
+            toast.success(data?.message || `Product ${type == 'post' ? 'posted' : 'updated'} successfully`);
         }, onError: (err) => {
-            toast.error(err?.message || 'Failed to post product');
+            toast.error(err?.message || `Failed to ${type == 'post' ? 'post' : 'update'} product`);
+            if (err?.message === 'Unauthorized') {
+
+                deleteSession();
+            }
         }
     });
     const handleFormSubmit = async (data: FieldValues) => {
 
-        console.log(data);
-        return;
+        setLoading(true);
         const images = data.image;
-
+        const cloudineryImagesDeleted = images.filter((image: Record<string, any>) => image.url.includes('cloudinary') && !!image.deleted);
+        const localImages = images.filter((image: Record<string, any>) => !image.url.includes('cloudinary') && !image.deleted);
+        console.log(cloudineryImagesDeleted, localImages);
+        const cloudineryImages = images.filter((image: Record<string, any>) => image.url.includes('cloudinary') && !image.deleted);
 
         const imageFormData = new FormData();
-        images.forEach((image: Record<string, any>) => {
+        localImages.forEach((image: Record<string, any>) => {
             imageFormData.append(`files`, image.file);
         });
+        if (cloudineryImagesDeleted.length > 0) {
+            try {
+                const { data: response } = await axiosSecure.delete(envConfig.publicBaseURL + '/deleteImage', {
+                    data: {
+                        images: cloudineryImagesDeleted.map((image: Record<string, any>) => image.url)
+                    }
+                });
+                if (!response.success) return toast.error(response.message || 'Failed to delete images');
+            } catch (err) {
+                console.log(err);
+            }
+        }
 
-        const { data: response } = await axiosPublic.post(envConfig.publicBaseURL + '/upload', imageFormData, { headers: { 'Content-Type': 'multipart/form-data' } });;
+        const { data: response } = await axiosSecure.post(envConfig.publicBaseURL + '/upload', imageFormData, { headers: { 'Content-Type': 'multipart/form-data' } });;
         if (!response.success) return toast.error(response.message || 'Failed to upload images');
 
         const { image, ...rest } = data;
-
+        setLoading(false);
         //@ts-ignore
         mutate({
-            body: rest,
-            images: response.data
+            body: { ...rest, id },
+            images: [...response.data, ...cloudineryImages.map((image: Record<string, any>) => image.url)]
         });
     };
 
@@ -65,7 +97,7 @@ const ResuableProductForm = ({ type, defaults }: { type: 'post' | 'put'; default
             <Box display={'flex'} justifyContent={'space-between'}>
                 <Box>
                     <Typography variant='h5' display={'flex'} alignItems={'center'} gap={2}>
-                        <RestoreFromTrashRoundedIcon fontSize={'medium'} /> Add New Product
+                        <RestoreFromTrashRoundedIcon fontSize={'medium'} /> {type === 'post' ? 'Add New' : 'Update'} Product
                     </Typography>
                 </Box>
                 <Box>
@@ -73,7 +105,7 @@ const ResuableProductForm = ({ type, defaults }: { type: 'post' | 'put'; default
 
                         formButtonRef?.current?.click();
                     }} variant='contained' sx={{ display: 'flex', alignItems: 'center', gap: 1, borderRadius: 10 }} >
-                        <DoneRoundedIcon /> Add Product
+                        <DoneRoundedIcon /> {type === 'post' ? 'Add' : 'Update'} Product
                     </Button>
                 </Box>
             </Box>

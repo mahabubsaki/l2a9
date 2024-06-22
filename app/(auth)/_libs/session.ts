@@ -65,7 +65,7 @@ export async function verifySession() {
     }
 
     const session = await decrypt(cookie);
-    // console.log({ session, cookie });
+
     if (!session?.userId) {
 
         return { isAuth: false };
@@ -80,7 +80,10 @@ export async function verifySession() {
     const json = await response.json();
 
     if (!json.success) throw new Error(json.message || 'Failed to verify session');
-    const dbSession = json.data[0];
+
+
+    const dbSession = json?.data?.sessions?.[0];
+
     if (!dbSession) {
         return { isAuth: false, };
     }
@@ -90,7 +93,7 @@ export async function verifySession() {
     // }
 
 
-    return { isAuth: true, userId: dbSession.userId };
+    return { isAuth: true, userId: dbSession.userId, role: json?.data?.role };
 }
 
 export async function deleteSession() {
@@ -114,4 +117,5 @@ export async function deleteSession() {
     if (!json.success) throw new Error(json.message || 'Failed to delete session');
     cookies().delete('session');
     redirect('/sign-in');
+
 }

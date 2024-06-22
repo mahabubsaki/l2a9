@@ -79,7 +79,7 @@ export default function DashboardLayoutClient({
     const [isClosing, setIsClosing] = React.useState(false);
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
-    const initialData = queryClient.getQueryData(['user', userId]);
+    const initialData = queryClient.getQueryData(['user', userId]) as Record<string, any> | undefined;
     const { data: user, isLoading } = useQuery({
         queryKey: ['user', userId],
         enabled: !initialData,
@@ -88,7 +88,8 @@ export default function DashboardLayoutClient({
 
             return data.data;
         },
-        initialData
+        initialData,
+
     });
 
     const handleDrawerClose = () => {

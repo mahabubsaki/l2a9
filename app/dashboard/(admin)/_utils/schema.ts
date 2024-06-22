@@ -43,13 +43,15 @@ const addProductSchema = z.object({
     }),
     image: z.array(z.object({
         url: z.string(),
-        file: z.instanceof(File).refine((file) => file.size < 1024 * 1024 * 3, {
-            message: 'File size must be at most 3MB'
-        }),
+        file: z.instanceof(File),
         deleted: z.boolean()
     })).nonempty({
         message: 'At least one image required'
-    }).refine((files) => files.every(obj => obj.file.size < 1024 * 1024 * 3), {
+    }).refine((files) => files.every(obj => {
+
+        if (obj.deleted) return true;
+        return obj.file.size < 1024 * 1024 * 3;
+    }), {
         message: 'Every image must be at most 3MB'
 
     }).refine((files) => files.some(obj => obj.deleted === false), {

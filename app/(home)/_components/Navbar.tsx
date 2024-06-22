@@ -63,16 +63,25 @@ export default function Navbar(props: Props) {
             const { isAuth, userId } = await verifySession();
 
             if (isAuth) {
-                const data = await qeuryClient.fetchQuery({
-                    queryKey: ['user', userId],
-                    queryFn: async () => {
-                        const { data } = await axiosSecure(`${envConfig.publicBaseURL}/user/${userId}`);
 
-                        return data.data;
-                    },
+                try {
+                    const data = await qeuryClient.fetchQuery({
+                        queryKey: ['user', userId],
 
-                });
-                setUser(data);
+                        queryFn: async () => {
+                            const { data } = await axiosSecure(`${envConfig.publicBaseURL}/user/${userId}`);
+
+
+                            return data?.data;
+                        },
+
+
+
+                    });
+                    setUser(data);
+                } catch (err) {
+                    console.log(err);
+                }
 
 
             }
