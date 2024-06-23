@@ -18,8 +18,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge, Skeleton } from '@mui/material';
 import { drawerWidth, navItems } from '../_constants';
 import dynamic from 'next/dynamic';
-import useThemeContext from '../_hooks/useThemeContext';
-import Link from 'next/link';
+import { Link } from '@mui/material';
+import NextLink from 'next/link';
 import { verifySession } from '@/app/(auth)/_libs/session';
 import { useQueryClient } from '@tanstack/react-query';
 import envConfig from '@/app/_configs/env.config';
@@ -103,11 +103,12 @@ export default function Navbar(props: Props) {
             <Divider />
             <List>
                 {navItems.map((item) => (
-                    <ListItem key={item} disablePadding onClick={handleDrawerToggle}>
-                        <ListItemButton sx={{ textAlign: 'center' }}>
-                            <ListItemText primary={item} />
-                        </ListItemButton>
-                    </ListItem>
+                    <Link key={item.name} href={item.path} component={NextLink}>
+                        <ListItem disablePadding onClick={handleDrawerToggle}>
+                            <ListItemButton sx={{ textAlign: 'center' }}>
+                                <ListItemText primary={item.name} />
+                            </ListItemButton>
+                        </ListItem></Link>
                 ))}
                 <ListItem disablePadding>
                     <ListItemButton onClick={handleDrawerToggle} sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -157,9 +158,10 @@ export default function Navbar(props: Props) {
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
-                            <Button key={item} sx={{ color: '#fff' }}>
-                                {item}
-                            </Button>
+                            <Link key={item.name} href={item.path} component={NextLink}>
+                                <Button sx={{ color: '#fff' }}>
+                                    {item.name}
+                                </Button></Link>
                         ))}
                         <Button sx={{ color: '#fff' }}>
                             <Badge badgeContent={4} color='secondary' >
