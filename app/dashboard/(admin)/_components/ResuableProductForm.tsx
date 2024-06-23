@@ -31,11 +31,12 @@ const ResuableProductForm = ({ type, defaults, id }: { type: 'post' | 'put'; def
     useEffect(() => {
 
         if (loading) {
-            toast.loading('uploading images', {
+            toast.loading('Processing Data', {
                 id: 'uploading'
             });
         } else {
             toast.dismiss('uploading');
+
         }
     }, [loading]);
     const axiosSecure = useAxiosSecure();

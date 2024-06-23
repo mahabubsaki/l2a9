@@ -1,20 +1,21 @@
 'use client';
 import { Box, Button, IconButton, Stack } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import React from 'react';
+import React, { useState } from 'react';
 import { PRODUCT_ENUM } from '../_constants';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
 import EditIcon from '@mui/icons-material/Edit';
 import { deleteProduct } from '../_actions';
 import Link from 'next/link';
+import Confirmation from './Confirmation';
 
 
 
 
 
 const ProductTable = ({ convertedRows }: { convertedRows: Array<Record<string, any>>; }) => {
-
+    const [open, setOpen] = useState<string | null>(null);
     const columns: GridColDef<(typeof convertedRows)[number]>[] = [
         { field: 'id', headerName: 'ID', width: 300 },
         {
@@ -88,7 +89,7 @@ const ProductTable = ({ convertedRows }: { convertedRows: Array<Record<string, a
                         <IconButton aria-label="details">
                             <InfoIcon />
                         </IconButton></Link>
-                    <IconButton onClick={() => deleteProduct(params.value)} aria-label="delete">
+                    <IconButton onClick={() => setOpen(params.value)} aria-label="delete">
                         <DeleteIcon />
                     </IconButton>
 
@@ -105,21 +106,35 @@ const ProductTable = ({ convertedRows }: { convertedRows: Array<Record<string, a
 
 
     ];
+
+    const handleClose = () => {
+        setOpen(null);
+    };
     return (
-        <DataGrid
-            rows={convertedRows}
-            columns={columns}
-            initialState={{
-                pagination: {
-                    paginationModel: {
-                        pageSize: 5,
+        <>
+            {convertedRows.length ? <DataGrid
+                rows={convertedRows}
+                columns={columns}
+                initialState={{
+                    pagination: {
+                        paginationModel: {
+                            pageSize: 5,
+                        },
                     },
-                },
-            }}
-            pageSizeOptions={[5]}
-            checkboxSelection
-            disableRowSelectionOnClick
-        />
+                }}
+                localeText={{
+                    noRowsLabel: 'No products found'
+                }}
+                pageSizeOptions={[5]}
+                checkboxSelection
+                disableRowSelectionOnClick
+            /> : <Stack spacing={2} justifyContent={'center'} alignItems={'center'}>
+                <Box>
+                    No Products Found
+                </Box>
+            </Stack>}
+            <Confirmation open={open} handleClose={handleClose} />
+        </>
     );
 };
 

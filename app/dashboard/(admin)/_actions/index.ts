@@ -1,5 +1,5 @@
 'use server';
-import { deleteSession, verifySession } from "@/app/(auth)/_libs/session";
+import { verifySession } from "@/app/(auth)/_libs/session";
 import envConfig from "@/app/_configs/env.config";
 
 import { revalidateTag } from "next/cache";
@@ -9,7 +9,6 @@ const adminActionWrapper = (fn: Function) => {
     return async (...args: any[]) => {
 
         const { isAuth, role } = await verifySession();
-        console.log({ isAuth, role });
         if (!isAuth || role !== 'admin') {
             throw new Error('Unauthorized');
         }
@@ -53,9 +52,23 @@ const postProduct = adminActionWrapper(async (data: Record<string, any>, images:
 
 
 
-const deleteProduct = async (id: string) => {
+const deleteProduct = adminActionWrapper(async (id: string) => {
 
-};
+    try {
+        const response = await fetch(envConfig.baseURL + `/product/${id}`, {
+            method: 'DELETE',
+        });
+        const json = await response.json();
+        if (!json.success) new Error(json.message || 'Failed to delete product');
+        revalidateTag('products');
+        return 'Product deleted successfully';
+    } catch (err) {
+        console.log(err);
+
+        throw new Error((err as Error).message);
+    }
+
+});
 
 
 
