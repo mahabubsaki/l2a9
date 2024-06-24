@@ -16,14 +16,14 @@ const addProductSchema = z.object({
     }).max(200, {
         message: 'Description must be at most 200 characters long'
     }),
-    size: z.enum(['xs', 's', 'm', 'l', 'xl', 'xxl'], {
-        message: 'Size required',
+    stain: z.enum(['grass', 'oil', 'wine', 'blood', 'ink'], {
+        message: 'Stain required',
 
     }).array().nonempty({
-        message: 'Must select at least one size'
+        message: 'Must select at least one stain'
     }),
-    gender: z.enum(['male', 'female'], {
-        message: 'Gender required'
+    type: z.enum(['new', 'resell'], {
+        message: 'Type required'
     }),
     price: z.coerce.number({
         message: 'Price required',

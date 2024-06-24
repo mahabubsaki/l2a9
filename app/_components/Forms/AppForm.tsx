@@ -18,7 +18,7 @@ const AppForm = ({ children, initialValues, onSubmit, schema, sx }: AppFormProps
         defaultValues: initialValues,
         resolver: zodResolver(schema),
     });
-
+    console.log(methods.formState.errors);
 
 
 

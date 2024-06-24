@@ -19,13 +19,15 @@ const AppSelect = ({ name, label, menuItem }: { name: string, label: string; men
                         label={label}
 
 
+
                         {...field}
+
 
 
                     >
                         {
                             menuItem.map((item, index) => {
-                                return <MenuItem key={index} value={item} sx={{ textTransform: 'capitalize' }}>{item[0].toUpperCase() + item.slice(1)}</MenuItem>;
+                                return <MenuItem key={index} value={item} sx={{ textTransform: 'capitalize' }}>{(item[0].toUpperCase() + item.slice(1))?.split('_').join(' ')}</MenuItem>;
                             })
 
                         }

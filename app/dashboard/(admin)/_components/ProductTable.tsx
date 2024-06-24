@@ -6,7 +6,6 @@ import { PRODUCT_ENUM } from '../_constants';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
 import EditIcon from '@mui/icons-material/Edit';
-import { deleteProduct } from '../_actions';
 import Link from 'next/link';
 import Confirmation from './Confirmation';
 
@@ -22,14 +21,13 @@ const ProductTable = ({ convertedRows }: { convertedRows: Array<Record<string, a
             field: 'name',
             headerName: 'Product Name',
             width: 250,
-            editable: true,
+
         },
         {
             field: 'price',
             headerName: 'Price($)',
             type: 'number',
             width: 150,
-            editable: true,
             sortable: true,
         },
         {
@@ -37,14 +35,14 @@ const ProductTable = ({ convertedRows }: { convertedRows: Array<Record<string, a
             headerName: 'Stock',
             type: 'number',
             width: 150,
-            editable: true,
+
             sortable: true
         },
         {
             field: 'discount',
             headerName: 'Discount',
             width: 150,
-            editable: true,
+
             renderCell: (params: Record<string, any>) => {
                 return params.value ? `${params.value}%` : 'N/A';
             }
@@ -53,7 +51,7 @@ const ProductTable = ({ convertedRows }: { convertedRows: Array<Record<string, a
             field: 'discountType',
             headerName: 'Discount Type',
             width: 150,
-            editable: true,
+
             renderCell: (params: Record<string, any>) => {
                 return params.value ? `${params.value}` : 'N/A';
             }
@@ -62,20 +60,28 @@ const ProductTable = ({ convertedRows }: { convertedRows: Array<Record<string, a
             field: 'category',
             headerName: 'Category',
             width: 150,
-            editable: true,
+
             renderCell: (params: Record<string, any>) => {
                 // @ts-ignore
                 return PRODUCT_ENUM[params.value];
             }
         },
-
         {
-            field: 'size',
-            headerName: 'Size',
+            field: 'type',
+            headerName: 'Type',
             width: 150,
-            editable: true,
+
             renderCell: (params: Record<string, any>) => {
-                return <Box>{params.value.map((s: string) => s.toUpperCase()).join(', ')}</Box>;
+                return params.value === 'new' ? 'New' : 'Resell';
+            }
+        },
+        {
+            field: 'stain',
+            headerName: 'Stain',
+            width: 150,
+
+            renderCell: (params: Record<string, any>) => {
+                return <Box>{params.value?.map((s: string) => s.toUpperCase()).join(', ')}</Box>;
             },
         },
         {

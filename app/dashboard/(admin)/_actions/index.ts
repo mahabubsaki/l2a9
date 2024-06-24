@@ -20,7 +20,7 @@ const adminActionWrapper = (fn: Function) => {
 
 const postProduct = adminActionWrapper(async (data: Record<string, any>, images: string[]) => {
 
-    const { size, ...restData } = data;
+    const { stain, ...restData } = data;
 
     const formData = new FormData();
     for (const key in restData) {
@@ -33,8 +33,8 @@ const postProduct = adminActionWrapper(async (data: Record<string, any>, images:
         formData.append('image[]', image);
 
     });
-    size.forEach((size: string) => {
-        formData.append('size[]', size);
+    stain.forEach((size: string) => {
+        formData.append('stain[]', size);
     });
     const response = await fetch(envConfig.publicBaseURL + `/product/${data.id}`, {
         method: 'PUT',

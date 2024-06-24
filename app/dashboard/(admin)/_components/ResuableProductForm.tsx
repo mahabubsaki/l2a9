@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import RestoreFromTrashRoundedIcon from '@mui/icons-material/RestoreFromTrashRounded';
 import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import AppForm from '@/app/_components/Forms/AppForm';
-import { ADD_PRODUCT_INITIAL_VALUES, PRODUCT_CATEGORY } from '../_constants';
+import { ADD_PRODUCT_INITIAL_VALUES, PRODUCT_CATEGORY, PRODUCT_ENUM } from '../_constants';
 import { addProductSchema } from '../_utils/schema';
 import AppInput from '@/app/_components/Forms/AppInput';
 import AppCheckBox from '@/app/_components/Forms/AppCheckBox';
@@ -127,15 +127,15 @@ const ResuableProductForm = ({ type, defaults, id }: { type: 'post' | 'put'; def
                             </Box>
                             <Stack direction={'row'} spacing={2}>
                                 <Box>
-                                    <Typography fontWeight={600}>Size</Typography>
-                                    <Typography variant='caption' display={'inline-block'} mb={1}>Pick Available Size</Typography>
-                                    <AppCheckBox fields={['xs', 's', 'm', 'l', 'xl', 'xxl']} name='size' />
+                                    <Typography fontWeight={600}>Stain Removal</Typography>
+                                    <Typography variant='caption' display={'inline-block'} mb={1}>Pick Available Stain Removals</Typography>
+                                    <AppCheckBox fields={['grass', 'oil', 'wine', 'blood', 'ink']} name='stain' />
                                 </Box>
                                 <Box>
-                                    <Typography fontWeight={600}>Gender</Typography>
-                                    <Typography variant='caption' display={'inline-block'} >Pick Gender</Typography>
+                                    <Typography fontWeight={600}>Type</Typography>
+                                    <Typography variant='caption' display={'inline-block'} >Pick Type</Typography>
                                     <Box mt={0.5}>
-                                        <AppRadio fields={['male', 'female']} name={'gender'} />
+                                        <AppRadio fields={['new', 'resell']} name={'type'} />
                                     </Box>
                                 </Box>
                             </Stack>
@@ -144,7 +144,7 @@ const ResuableProductForm = ({ type, defaults, id }: { type: 'post' | 'put'; def
                             <Typography variant='h6'>Pricing and Stock</Typography>
                             <Stack direction={'row'} spacing={2}>
                                 <Box flex={1}>
-                                    <AppInput start='$' type='number' name='price' label='Base Pricng' />
+                                    <AppInput start='$' type='number' name='price' label='Base Pricing' />
                                 </Box>
                                 <Box flex={1} >
                                     <AppInput name='stock' type='number' label='Stock' />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+
 import { getProducts } from '../_fetchers';
 import { Box } from '@mui/material';
 import ProductTable from '../_components/ProductTable';
@@ -17,8 +17,9 @@ const Products = async () => {
         discount: product.discount,
         discountType: product.discountType,
         category: product.category,
-        size: product.size,
-        action: product._id
+        stain: product.stain,
+        action: product._id,
+        type: product.type,
     }));
     return (
         <Box>
