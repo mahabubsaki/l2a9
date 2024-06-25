@@ -41,6 +41,7 @@ const LanudryProducts = async () => {
                                                 Stock: {product.stock}
                                             </Typography>
                                         </Stack>
+                                        {/* test */}
                                     </CardContent>
                                     <CardActions>
                                         <Button size="small">Add To Cart</Button>
