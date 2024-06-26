@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import React, { Suspense } from 'react';
 import Review from './_components/Review';
+import AddToCartButton from '../_components/AddToCartButton';
 
 const SingleProductPage = async ({ params }: { params: Record<string, any>; }) => {
     const { productID } = params;
@@ -31,7 +32,7 @@ const SingleProductPage = async ({ params }: { params: Record<string, any>; }) =
                         <Typography variant={'h6'}>Stock : {stock}</Typography>
                         <Typography variant={'h6'} textTransform={'capitalize'}>Type : {type}</Typography>
                     </Box>
-                    <Button variant='contained'>Add to Cart</Button>
+                    <AddToCartButton id={productID} />
                 </Grid>
 
             </Grid>

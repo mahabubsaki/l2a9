@@ -14,8 +14,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Avatar, Badge, Skeleton } from '@mui/material';
+
+import { Badge, Skeleton } from '@mui/material';
 import { drawerWidth, navItems } from '../_constants';
 import dynamic from 'next/dynamic';
 import { Link } from '@mui/material';
@@ -24,6 +24,10 @@ import { verifySession } from '@/app/(auth)/_libs/session';
 import { useQueryClient } from '@tanstack/react-query';
 import envConfig from '@/app/_configs/env.config';
 import { useAxiosSecure } from '@/app/_hooks/useAxiosSecure';
+
+const CartCount = dynamic(() => import('./CartCount'), {
+    ssr: false
+});
 
 const ThemeSwitch = dynamic(() => import('../_components/ThemeSwitch'), {
     ssr: false, loading: () => {
@@ -113,9 +117,7 @@ export default function Navbar(props: Props) {
                 ))}
                 <ListItem disablePadding>
                     <ListItemButton onClick={handleDrawerToggle} sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <Badge badgeContent={5} color='secondary'>
-                            <ShoppingCartIcon />
-                        </Badge>
+                        <CartCount />
                     </ListItemButton>
 
                 </ListItem>
@@ -165,9 +167,7 @@ export default function Navbar(props: Props) {
                                 </Button></Link>
                         ))}
                         <Button sx={{ color: '#fff' }}>
-                            <Badge badgeContent={4} color='secondary' >
-                                <ShoppingCartIcon />
-                            </Badge>
+                            <CartCount />
                         </Button>
                         <ThemeSwitch />
                         <ToggleNavProfile handleDrawerToggle={handleDrawerToggle} user={user} />

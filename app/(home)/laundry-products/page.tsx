@@ -3,6 +3,7 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Stack, Ty
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import AddToCartButton from './_components/AddToCartButton';
 
 const LanudryProducts = async () => {
     const { data } = await getProducts();
@@ -45,7 +46,7 @@ const LanudryProducts = async () => {
                                         {/* test */}
                                     </CardContent>
                                     <CardActions >
-                                        <Button size="small">Add To Cart</Button>
+                                        <AddToCartButton id={product._id} />
                                         <Link href={`/laundry-products/${product._id}`}>
                                             <Button size="small">Details</Button>
                                         </Link>
