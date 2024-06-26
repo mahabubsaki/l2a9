@@ -31,6 +31,18 @@ const getSingleProduct = async (id: string) => {
     }
 };
 
+const getOrders = async () => {
+    const response = await fetch(envConfig.baseURL + '/orders', {
+        next: {
+            tags: ['orders']
+        }
+    });
+    const json = await response.json();
+    if (!json.success) throw new Error(json.message || 'Failed to fetch orders');
+    return json;
+
+};
+
 export {
-    getProducts, getSingleProduct
+    getProducts, getSingleProduct, getOrders
 };

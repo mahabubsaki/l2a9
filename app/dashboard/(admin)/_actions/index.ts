@@ -70,11 +70,29 @@ const deleteProduct = adminActionWrapper(async (id: string) => {
 
 });
 
+const deliverOrder = adminActionWrapper(async (id: string) => {
+
+
+    try {
+        const response = await fetch(envConfig.baseURL + `/order/${id}`, {
+            method: 'PUT',
+        });
+        const json = await response.json();
+        if (!json.success) new Error(json.message || 'Failed to deliver order');
+        revalidateTag('orders');
+        return 'Order delivered successfully';
+    } catch (err) {
+        console.log(err);
+
+        throw new Error((err as Error).message);
+    }
+});
+
 
 
 export {
     postProduct,
 
     deleteProduct,
-
+    deliverOrder
 };

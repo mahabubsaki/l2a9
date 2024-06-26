@@ -1,6 +1,5 @@
 'use client';
 import { useAxiosSecure } from '@/app/_hooks/useAxiosSecure';
-import { getSingleProduct } from '@/app/dashboard/(admin)/_fetchers';
 import useStore from '@/app/store';
 import { Box, Button, FormControl, FormControlLabel, FormLabel, IconButton, Radio, RadioGroup, Skeleton, Stack, Typography } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

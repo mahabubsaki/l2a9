@@ -47,10 +47,23 @@ const checkout = userActionWrapper(async (data: Record<string, any>, userId: str
     });
     const json = await response.json();
     if (!json.success) throw new Error(json.message || 'Failed to checkout');
+    revalidateTag('orders');
+    return json;
+});
+
+const getMyOrders = userActionWrapper(async (userId: string) => {
+    const response = await fetch(envConfig.baseURL + `/orders?userId=${userId}`, {
+        next: {
+            tags: ['orders']
+        }
+    });
+    const json = await response.json();
+    if (!json.success) throw new Error(json.message || 'Failed to fetch orders');
     return json;
 });
 
 export {
     addReview,
-    checkout
+    checkout,
+    getMyOrders
 };
