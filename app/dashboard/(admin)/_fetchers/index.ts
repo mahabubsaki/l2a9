@@ -10,6 +10,8 @@ const getProducts = async () => {
     return json;
 };
 
+
+
 const getSingleProduct = async (id: string) => {
     try {
         const response = await fetch(envConfig.baseURL + '/product/' + id, {

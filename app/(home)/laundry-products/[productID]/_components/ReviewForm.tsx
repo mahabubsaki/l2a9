@@ -24,8 +24,8 @@ const ReviewForm = ({ productID }: { productID: string; }) => {
     return (
         <FormControl fullWidth component={'form'} sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }} onSubmit={async (e) => {
             e.preventDefault();
-            const { userId } = await verifySession();
-            mutate({ reviewText: text, productId: productID, userID: userId, });
+
+            mutate({ reviewText: text, productId: productID });
         }}>
             <TextField
                 value={text}

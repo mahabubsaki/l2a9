@@ -115,12 +115,13 @@ export default function Navbar(props: Props) {
                             </ListItemButton>
                         </ListItem></Link>
                 ))}
-                <ListItem disablePadding>
-                    <ListItemButton onClick={handleDrawerToggle} sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <CartCount />
-                    </ListItemButton>
+                <Link href={'/checkout'} component={NextLink}>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={handleDrawerToggle} sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <CartCount />
+                        </ListItemButton>
 
-                </ListItem>
+                    </ListItem></Link>
 
                 <ThemeSwitch />
                 <Link href={'/sign-up'}>
@@ -166,9 +167,11 @@ export default function Navbar(props: Props) {
                                     {item.name}
                                 </Button></Link>
                         ))}
-                        <Button sx={{ color: '#fff' }}>
-                            <CartCount />
-                        </Button>
+                        <Link href={'/checkout'} component={NextLink}>
+                            <Button sx={{ color: '#fff' }}>
+                                <CartCount />
+                            </Button>
+                        </Link>
                         <ThemeSwitch />
                         <ToggleNavProfile handleDrawerToggle={handleDrawerToggle} user={user} />
 

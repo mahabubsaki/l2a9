@@ -11,7 +11,7 @@ export const useAxiosSecure = () => {
     instance.interceptors.response.use((data) => {
         return data;
     }, async (err) => {
-        toast.error(err?.response?.data?.message || 'Failed to verify session');
+        toast.error(err?.response?.data?.message || 'Failed to fetch client side fetch data');
         console.log(err.response);
         if (err.response.status === 401) {
 
