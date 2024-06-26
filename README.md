@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# PristinePro
 
-## Getting Started
+Welcome to PristinePro, if you need premium laundry products you can get here
 
-First, run the development server:
+## Live URL
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+You can access the live version of PristinePro [here](https://advance-nextjs-asgmt.vercel.app/).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **React Rating**: Incorporates React Rating for users to rate and review products, enhancing user engagement.
+- **Next.js**: Built with Next.js for server-side rendering, enabling faster page loads and improved SEO performance.
+- **TypeScript**: Utilizes TypeScript for static typing, improving code quality and developer productivity.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Setup
 
-## Learn More
+1. Clone this repository to your local machine.
+2. Install dependencies using `npm install`.
+3. Start the development server using `npm run dev`.
+4. Open your browser and navigate to `http://localhost:3000` to access PristinePro.
 
-To learn more about Next.js, take a look at the following resources:
+## Additional Information
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- This project is built with Next.js version 14.1.4 for optimized performance and enhanced developer experience.
+- ESLint is configured to maintain code consistency and adhere to best practices.
+- PostCSS and Autoprefixer are used for CSS processing and vendor prefixing, ensuring compatibility across various browsers.
+- Please feel free to explore and contribute to PristinePro. If you encounter any issues or have suggestions for improvements, please submit an issue or pull request.
