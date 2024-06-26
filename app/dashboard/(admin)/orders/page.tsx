@@ -5,6 +5,7 @@ import OrderTable from '../_components/OrderTable';
 
 const Orders = async () => {
     const data = await getOrders();
+    if (!data) return null;
     const convertedRows = data.data.map((product: Record<string, any>) => ({
         id: product._id,
         orderDate: new Date(product.timestamp).toLocaleDateString(),

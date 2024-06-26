@@ -8,6 +8,7 @@ import ProductTable from '../_components/ProductTable';
 
 const Products = async () => {
     const products = await getProducts();
+    if (!products) return null;
 
     const convertedRows = products.data.map((product: Record<string, any>) => ({
         id: product._id,

@@ -10,7 +10,8 @@ import AddToCartButton from '../_components/AddToCartButton';
 const SingleProductPage = async ({ params }: { params: Record<string, any>; }) => {
     const { productID } = params;
     if (!productID) return notFound();
-    const { data } = await getSingleProduct(productID);
+    const { data } = await getSingleProduct(productID) || {};
+    if (!data) return null;
 
     const { name, description, image, discount, category, price, stain, stock, type } = data || {};
 

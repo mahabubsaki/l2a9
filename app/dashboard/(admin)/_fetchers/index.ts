@@ -1,6 +1,7 @@
 import envConfig from "@/app/_configs/env.config";
 
 const getProducts = async () => {
+    if (!envConfig.baseURL) return null;
     const response = await fetch(envConfig.baseURL + '/products', {
         next: {
             tags: ['products']
@@ -13,6 +14,7 @@ const getProducts = async () => {
 
 
 const getSingleProduct = async (id: string) => {
+    if (!envConfig.baseURL) return null;
     try {
         const response = await fetch(envConfig.baseURL + '/product/' + id, {
             next: {
@@ -22,23 +24,24 @@ const getSingleProduct = async (id: string) => {
         });
         const json = await response.json();
 
-        if (!json.success) throw new Error(json.message || 'Failed to fetch product');
+        if (!json.success) return { error: true, message: json.message || 'Failed to sign in.' };;
         return json;
     } catch (err) {
 
-
-        throw new Error((err as Error)?.message || 'Failed to fetch product');
+        console.log(err);
+        return { error: true, message: (err as Error).message || 'Failed to sign in.' };
     }
 };
 
 const getOrders = async () => {
+    if (!envConfig.baseURL) return null;
     const response = await fetch(envConfig.baseURL + '/orders', {
         next: {
             tags: ['orders']
         }
     });
     const json = await response.json();
-    if (!json.success) throw new Error(json.message || 'Failed to fetch orders');
+    if (!json.success) return { error: true, message: json.message || 'Failed to sign in.' };;
     return json;
 
 };

@@ -53,7 +53,7 @@ export async function createSession(userId: string) {
         expires: expiresAt,
         sameSite: envConfig.env === 'development' ? 'lax' : 'none',
         path: '/',
-        domain: envConfig.env === 'development' ? 'localhost' : 'vercel'
+
     });
 
 

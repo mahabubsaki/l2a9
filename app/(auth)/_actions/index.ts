@@ -17,7 +17,7 @@ const createUser = async (data: FieldValues) => {
         method: 'POST',
     });
     const json = await response.json();
-    if (!json.success) throw new Error(json.message || 'Failed to create user.');
+    if (!json.success) return { error: true, message: json.message || 'Failed to sign in.' };;
     await createSession(json.id);
 
     return json;
@@ -33,7 +33,7 @@ const signInUser = async (data: FieldValues) => {
         method: 'POST',
     });
     const json = await response.json();
-    if (!json.success) throw new Error(json.message || 'Failed to login.');
+    if (!json.success) return { error: true, message: json.message || 'Failed to sign in.' };
     await createSession(json.id);
 
     return json;

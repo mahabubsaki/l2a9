@@ -6,7 +6,8 @@ import React from 'react';
 import AddToCartButton from './_components/AddToCartButton';
 
 const LanudryProducts = async () => {
-    const { data } = await getProducts();
+    const { data } = await getProducts() || {};
+    if (!data) return null;
 
     return (
         <Box sx={{ maxWidth: 1200, my: 10, mx: 'auto' }}>
