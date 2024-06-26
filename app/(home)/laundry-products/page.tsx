@@ -6,7 +6,7 @@ import React from 'react';
 
 const LanudryProducts = async () => {
     const { data } = await getProducts();
-    console.log(data);
+
     return (
         <Box sx={{ maxWidth: 1200, my: 10, mx: 'auto' }}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
