@@ -17,6 +17,18 @@ const adminActionWrapper = (fn: Function) => {
     };
 
 };
+const userActionWrapper = (fn: Function) => {
+    return async (...args: any[]) => {
+
+        const { isAuth, userId } = await verifySession();
+        if (!isAuth) {
+            throw new Error('Unauthorized');
+        }
+        return await fn(...args, userId);
+
+    };
+
+};
 
 const postProduct = adminActionWrapper(async (data: Record<string, any>, images: string[]) => {
 
@@ -70,12 +82,18 @@ const deleteProduct = adminActionWrapper(async (id: string) => {
 
 });
 
-const deliverOrder = adminActionWrapper(async (id: string) => {
 
+const deliverOrder = userActionWrapper(async (data: Record<string, any>) => {
 
+    const { id, ...rest } = data;
+    console.log(rest);
     try {
         const response = await fetch(envConfig.baseURL + `/order/${id}`, {
             method: 'PUT',
+            body: JSON.stringify(rest),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
         const json = await response.json();
         if (!json.success) new Error(json.message || 'Failed to deliver order');

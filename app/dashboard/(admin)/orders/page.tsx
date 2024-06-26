@@ -13,7 +13,9 @@ const Orders = async () => {
         name: product.user.name,
         totalCost: product.products.reduce((pre: any, cur: any) => pre + (cur.price * cur.quantity), 0),
         totalItem: product.products.reduce((pre: any, cur: any) => pre + cur.quantity, 0),
+        rating: product.rating,
     }));
+
 
     return (
         <Box>

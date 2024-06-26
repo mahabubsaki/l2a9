@@ -49,10 +49,11 @@ export async function createSession(userId: string) {
     const session = await encrypt({ userId, expiresAt });
     cookies().set('session', session, {
         httpOnly: true,
-        secure: true,
+        secure: envConfig.env !== 'development',
         expires: expiresAt,
-        sameSite: 'lax',
+        sameSite: envConfig.env === 'development' ? 'lax' : 'none',
         path: '/',
+        domain: envConfig.env === 'development' ? 'localhost' : 'vercel'
     });
 
 

@@ -124,11 +124,7 @@ export default function Navbar(props: Props) {
                     </ListItem></Link>
 
                 <ThemeSwitch />
-                <Link href={'/sign-up'}>
-                    <Button onClick={handleDrawerToggle} variant='contained'>
-                        Join Now
-                    </Button>
-                </Link>
+                <ToggleNavProfile handleDrawerToggle={handleDrawerToggle} user={user} />
                 {/* <ThemeSwitch /> */}
 
 

@@ -8,6 +8,12 @@ export const useAxiosSecure = () => {
         baseURL: envConfig.publicBaseURL,
         withCredentials: true,
     });
+    instance.interceptors.request.use((config) => {
+
+        return config;
+    }, (err) => {
+        return Promise.reject(err);
+    });
     instance.interceptors.response.use((data) => {
         return data;
     }, async (err) => {

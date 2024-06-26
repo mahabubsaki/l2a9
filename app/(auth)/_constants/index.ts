@@ -44,6 +44,6 @@ export const SIGN_IN_FIELDS = [{
 }];
 
 export const SIGN_IN_INITIAL_VALUES = {
-    email: 'saki@gmail.com',
-    password: 'Iloveumonia1@',
+    email: '',
+    password: '',
 } as Record<typeof SIGN_IN_FIELDS[number]['name'], any>;
