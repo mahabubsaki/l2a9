@@ -11,14 +11,22 @@ const getProducts = async () => {
 };
 
 const getSingleProduct = async (id: string) => {
-    const response = await fetch(envConfig.baseURL + '/product/' + id, {
-        next: {
-            tags: ['product', id]
-        },
-        cache: 'no-cache'
-    });
-    const json = await response.json();
-    return json;
+    try {
+        const response = await fetch(envConfig.baseURL + '/product/' + id, {
+            next: {
+                tags: ['product', id]
+            },
+            cache: 'no-cache'
+        });
+        const json = await response.json();
+
+        if (!json.success) throw new Error(json.message || 'Failed to fetch product');
+        return json;
+    } catch (err) {
+
+
+        throw new Error((err as Error)?.message || 'Failed to fetch product');
+    }
 };
 
 export {

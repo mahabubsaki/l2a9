@@ -8,13 +8,13 @@ const LanudryProducts = async () => {
     const { data } = await getProducts();
     console.log(data);
     return (
-        <Box sx={{ width: '100%', my: 10 }}>
+        <Box sx={{ maxWidth: 1200, my: 10, mx: 'auto' }}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {
                     data.map((product: Record<string, any>) => {
                         return (
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
-                                <Card >
+                            <Grid item xs={12} sm={6} md={4} lg={3} sx={{ position: 'relative' }} key={product._id}>
+                                <Card sx={{ height: '100%', display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }} >
                                     <Box
                                         sx={{
                                             position: 'relative',
@@ -24,6 +24,7 @@ const LanudryProducts = async () => {
                                     >
                                         <Image fill src={product.image[0]} alt={product.name} />
                                     </Box>
+
 
 
                                     <CardContent>
@@ -43,12 +44,13 @@ const LanudryProducts = async () => {
                                         </Stack>
                                         {/* test */}
                                     </CardContent>
-                                    <CardActions>
+                                    <CardActions >
                                         <Button size="small">Add To Cart</Button>
                                         <Link href={`/laundry-products/${product._id}`}>
                                             <Button size="small">Details</Button>
                                         </Link>
                                     </CardActions>
+
                                 </Card>
                             </Grid>
                         );
